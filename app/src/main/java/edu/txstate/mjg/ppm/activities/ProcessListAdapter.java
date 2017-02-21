@@ -46,6 +46,7 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
 
         TextView processStatus = viewHolder.status;
 
+        //Determine what status text to display
         switch(process.getState()) {
             case PROCESS_PLANNING:
                 processStatus.setText("Planning");
@@ -56,8 +57,6 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
             case PROCESS_COMPLETED:
                 processStatus.setText("Completed");
         }
-
-
     }
 
     @Override

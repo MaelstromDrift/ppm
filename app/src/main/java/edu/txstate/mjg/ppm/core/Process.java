@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Process {
 
+    //TODO: Create the Process data structure to follow the tree format shown in the paper.
     //TODO; confirm that these are the three states that the process can be in at any time.
     public enum ProcessState {
         PROCESS_PLANNING,

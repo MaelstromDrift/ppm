@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private void createDummyData(int numOfProcesses) {
         for(int i = 0; i < numOfProcesses; i++) {
             Process temp_process = new Process();
-            temp_process.setTitle(Integer.toString(i));
+            temp_process.setTitle("Title " + Integer.toString(i));
             processList.add(temp_process);
         }
     }
