@@ -73,4 +73,5 @@ public class Process {
     }
 
     public void setCategory(Categories category) { this.category = category; }
+    public void setTitle(String title) { this.title = title; }
 }

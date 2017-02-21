@@ -3,6 +3,8 @@ package edu.txstate.mjg.ppm;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.txstate.mjg.ppm.activities.ProcessListAdapter;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.core.Task;
 
@@ -23,21 +26,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        processList = new ArrayList<Process>();
-        processTextView = (TextView) findViewById(R.id.processList);
+
+        processList = new ArrayList<>();
+        final RecyclerView processRecylcer = (RecyclerView) findViewById(R.id.recycler_view);
 
         createDummyData(5);
-        populateTextView();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ProcessListAdapter processListAdapter = new ProcessListAdapter(this, processList);
+
+       // processTextView = (TextView) findViewById(R.id.processList);
+
+        processRecylcer.setAdapter(processListAdapter);
+        processRecylcer.setLayoutManager(new LinearLayoutManager(this));
+//        populateTextView();
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 processList.add(new Process());
-                populateTextView();
-                StringBuilder builder = new StringBuilder();
+                //populateTextView();
+               // StringBuilder builder = new StringBuilder();
+                processList.get(processList.size()-1).setTitle(Integer.toString(processList.size()-1));
+                processRecylcer.getAdapter().notifyDataSetChanged();
             }
         });
     }
@@ -61,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             for(int j = 0; j < rand.nextInt(10); j++) {
                 temp_process.addTask(new Task());
             }
+            temp_process.setTitle(Integer.toString(i));
             processList.add(temp_process);
         }
     }
