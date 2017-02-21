@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 processList.add(new Process());
                 processList.get(processList.size()-1).setTitle(Integer.toString(processList.size()-1));
                 processRecylcer.getAdapter().notifyDataSetChanged();
+                Log.d("Test", "test");
             }
         });
     }
