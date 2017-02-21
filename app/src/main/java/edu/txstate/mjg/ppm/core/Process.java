@@ -6,9 +6,9 @@ public class Process {
 
     //TODO; confirm that these are the three states that the process can be in at any time.
     public enum ProcessState {
-        planning,
-        inProgress,
-        completed
+        PROCESS_PLANNING,
+        PROCESS_INPROGRESS,
+        PROCESS_COMPLETED
     }
 
     //TODO: think of better way to manage categories.
@@ -43,8 +43,9 @@ public class Process {
         creatorID   = 0;
         title       = "Example";
         description = "This is a test description";
-        taskList    = new ArrayList<Task>();
+        taskList    = new ArrayList<>();
         category    = Categories.lifestyle;
+        state       = ProcessState.PROCESS_PLANNING;
     }
 
 
@@ -71,7 +72,10 @@ public class Process {
     public Categories getCategory() {
         return category;
     }
+    public ProcessState getState() {return state;}
 
+    public void setState(ProcessState state) { this.state = state; }
     public void setCategory(Categories category) { this.category = category; }
     public void setTitle(String title) { this.title = title; }
+    public void setDescription(String text) {description = text;}
 }

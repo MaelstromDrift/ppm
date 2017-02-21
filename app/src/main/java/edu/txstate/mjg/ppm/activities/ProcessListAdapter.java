@@ -14,7 +14,7 @@ import edu.txstate.mjg.ppm.core.Process;
 
 public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.ViewHolder> {
 
-    List<Process> mProcesses;
+    private List<Process> mProcesses;
 
     private Context mContext;
 
@@ -43,6 +43,21 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
         TextView descriptionTextView = viewHolder.processDescription;
 
         descriptionTextView.setText(process.getDescription());
+
+        TextView processStatus = viewHolder.status;
+
+        switch(process.getState()) {
+            case PROCESS_PLANNING:
+                processStatus.setText("Planning");
+                break;
+            case PROCESS_INPROGRESS:
+                processStatus.setText("In-Progress");
+                break;
+            case PROCESS_COMPLETED:
+                processStatus.setText("Completed");
+        }
+
+
     }
 
     @Override
@@ -51,17 +66,19 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView processTitle;
-        public TextView processDescription;
-        public TextView startDate;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView processTitle;
+        TextView processDescription;
+        TextView startDate;
+        TextView status;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             processTitle = (TextView) itemView.findViewById(R.id.processTitle);
             processDescription = (TextView) itemView.findViewById(R.id.processDescription);
             startDate = (TextView) itemView.findViewById(R.id.startDate);
+            status = (TextView) itemView.findViewById(R.id.process_list_status);
         }
     }
 }
