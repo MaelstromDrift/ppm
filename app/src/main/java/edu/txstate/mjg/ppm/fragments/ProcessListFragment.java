@@ -28,12 +28,12 @@ public class ProcessListFragment extends Fragment {
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.process_list_view, container, false);
 
-        final RecyclerView processRecylcer = (RecyclerView) view.findViewById(R.id.recycler_view);
+        final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         ProcessListAdapter processListAdapter = new ProcessListAdapter(view.getContext(), mProcessList);
 
-        processRecylcer.setAdapter(processListAdapter);
-        processRecylcer.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        processRecycler.setAdapter(processListAdapter);
+        processRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -41,17 +41,11 @@ public class ProcessListFragment extends Fragment {
             public void onClick(View view) {
                 mProcessList.add(new Process());
                 mProcessList.get(mProcessList.size()-1).setTitle(Integer.toString(mProcessList.size()-1));
-                processRecylcer.getAdapter().notifyDataSetChanged();
+                processRecycler.getAdapter().notifyDataSetChanged();
             }
         });
 
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
     }
 
     private void createDummyData(int numOfProcesses) {
