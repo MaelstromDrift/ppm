@@ -2,6 +2,7 @@ package edu.txstate.mjg.ppm;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,40 +19,13 @@ import edu.txstate.mjg.ppm.core.Process;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<Process> processList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        processList = new ArrayList<>();
-        final RecyclerView processRecylcer = (RecyclerView) findViewById(R.id.recycler_view);
-
-        createDummyData(new Random().nextInt(100));
-        ProcessListAdapter processListAdapter = new ProcessListAdapter(this, processList);
-
-        processRecylcer.setAdapter(processListAdapter);
-        processRecylcer.setLayoutManager(new LinearLayoutManager(this));
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                processList.add(new Process());
-                processList.get(processList.size()-1).setTitle(Integer.toString(processList.size()-1));
-                processRecylcer.getAdapter().notifyDataSetChanged();
-                Log.d("Test", "test");
-            }
-        });
     }
 
-    private void createDummyData(int numOfProcesses) {
-        for(int i = 0; i < numOfProcesses; i++) {
-            Process temp_process = new Process();
-            temp_process.setTitle("Title " + Integer.toString(i));
-            processList.add(temp_process);
-        }
-    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
