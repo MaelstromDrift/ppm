@@ -1,7 +1,6 @@
 package edu.txstate.mjg.ppm.fragments;
 
 import android.app.Fragment;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,18 +15,14 @@ import java.util.Random;
 import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.activities.ProcessListAdapter;
 import edu.txstate.mjg.ppm.core.Process;
-import edu.txstate.mjg.ppm.utils.DebugUtils;
 
 public class ProcessListFragment extends Fragment {
     ArrayList<Process> mProcessList;
-    SQLiteDatabase mDatabase;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProcessList = new ArrayList<>();
         createDummyData(new Random().nextInt(100));
-        mDatabase = getActivity().openOrCreateDatabase("ppm.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
-        DebugUtils.populateDB(mDatabase, 10);
     }
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
