@@ -1,5 +1,7 @@
 package edu.txstate.mjg.ppm.core;
 
+import java.util.ArrayList;
+
 public class Task {
 
     /*
@@ -25,6 +27,7 @@ public class Task {
     private TaskStates state;
     private int        creatorId;
 
+    private ArrayList<Task> linkedTasks;
     /*
     TODO: Learn how to store a timestamp properly
     private time    startTimestamp;
@@ -39,6 +42,18 @@ public class Task {
         this.state = TaskStates.notStarted;
     }
 
+    //Linked Tasks Operations
+    public void addTask(Task task) { linkedTasks.add(task); }
+
+    public void addTask(int order, Task task) { linkedTasks.add(task); }
+
+    public void deleteLinkedTask(int pos) {linkedTasks.remove(pos);}
+
+    public ArrayList<Task> getAllLinkedTasks() {return linkedTasks;}
+
+    public Task getLinkedTask(int pos) {return linkedTasks.get(pos);}
+
+    //General Task Operations
     public int getTaskId() {
         return taskId;
     }
@@ -52,6 +67,14 @@ public class Task {
     }
 
     public int getCreatorID() { return creatorId; }
+
+    public TaskStates getState() { return state; }
+
+    public void setTitle(String title) { this.title = title; }
+
+    public void setDescription(String description) {this.description = description;}
+
+    public void setState(TaskStates state) {this.state = state;}
 
     public void setCreatorID(int userID) { creatorId = userID; }
 

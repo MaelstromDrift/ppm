@@ -1,18 +1,22 @@
 package edu.txstate.mjg.ppm.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import edu.txstate.mjg.ppm.R;
+import edu.txstate.mjg.ppm.activities.CreateProcessActivity;
 import edu.txstate.mjg.ppm.activities.ProcessListAdapter;
 import edu.txstate.mjg.ppm.core.Process;
 
@@ -28,6 +32,7 @@ public class ProcessListFragment extends Fragment {
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.process_list_view, container, false);
 
+
         final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         ProcessListAdapter processListAdapter = new ProcessListAdapter(view.getContext(), mProcessList);
@@ -39,13 +44,22 @@ public class ProcessListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mProcessList.add(new Process());
-                mProcessList.get(mProcessList.size()-1).setTitle(Integer.toString(mProcessList.size()-1));
-                processRecycler.getAdapter().notifyDataSetChanged();
+                Intent createProcessIntent = new Intent(view.getContext(), CreateProcessActivity.class);
+                view.getContext().startActivity(createProcessIntent);
+//                mProcessList.add(new Process());
+//                mProcessList.get(mProcessList.size()-1).setTitle(Integer.toString(mProcessList.size()-1));
+//                processRecycler.getAdapter().notifyDataSetChanged();
             }
         });
 
+
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 
     private void createDummyData(int numOfProcesses) {
