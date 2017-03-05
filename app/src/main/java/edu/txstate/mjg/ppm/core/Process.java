@@ -13,7 +13,7 @@ public class Process {
     }
 
     //TODO: think of better way to manage categories.
-    public enum Categories{
+    public static enum Categories{
         lifestyle,                  //0
         fitness,                    //1
         education                   //2
@@ -34,7 +34,7 @@ public class Process {
     private int creatorID;
     private String title;
     private String description;
-    private ArrayList<Task> taskList; //TODO: work on a more suitable way to structure the tasks in order to conform with the tree like structure described in the paper.
+    private ArrayList<Task> taskList;
     private Categories category;
 
     private ProcessState state;
@@ -47,6 +47,14 @@ public class Process {
         taskList    = new ArrayList<>();
         category    = Categories.lifestyle;
         state       = ProcessState.PROCESS_PLANNING;
+    }
+
+    public Process(String title, String description, Categories category, int creatorID) {
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.creatorID = creatorID;
+
     }
 
 

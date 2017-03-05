@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -19,12 +20,17 @@ import edu.txstate.mjg.ppm.core.Process;
 
 public class MainActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
 
+        setSupportActionBar(toolbar);
+
+        toolbar.setTitle("Processes");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
