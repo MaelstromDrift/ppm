@@ -2,7 +2,10 @@ package edu.txstate.mjg.ppm;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,16 +26,63 @@ import edu.txstate.mjg.ppm.core.Process;
 
 public class MainActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
+    private String[] mTestContent;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private ArrayAdapter<String> navDrawerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+
+        initViews();
+        initNavDrawer();
 
         setSupportActionBar(toolbar);
 
-        toolbar.setTitle("Processes");
+    }
+
+    void initViews() {
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        mTestContent = getResources().getStringArray(R.array.navigation_drawer_values);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+    }
+    void initNavDrawer() {
+        navDrawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mTestContent);
+        mDrawerList.setAdapter(navDrawerAdapter);
+
+        //        TODO: Should this be abstracted away into it's own class?
+//              Is this same drawer going to be used in multiple activities?
+        mDrawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO: Switch between fragments/do other actions
+            }
+
+        });
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+            @Override
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                //getActionBar().setTitle("Title");
+                invalidateOptionsMenu();
+            }
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                //getActionBar().setTitle()
+                invalidateOptionsMenu();
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

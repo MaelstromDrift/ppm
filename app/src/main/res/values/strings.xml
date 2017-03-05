@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Social PPM</string>
-    <string name="process_list"> Processes</string>
+    <string name="process_list">Processes</string>
     <string name="action_settings">Settings</string>
     <string name="manage">Manage</string>
     <string name="search">Search</string>
@@ -8,6 +8,15 @@
 
     <string name="manage_processes">Manage Processes</string>
     <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="drawer_open">Drawer Opened</string>
+    <string name="drawer_close">Drawer Closed</string>
+    <string-array name="navigation_drawer_values">
+        <item>All Processes</item>
+        <item>Incomplete Processes</item>
+        <item>Completed Processes</item>
+        <item>Credits</item>
+    </string-array>
 
     <string-array name="categories_array">
         <item>Education</item>
