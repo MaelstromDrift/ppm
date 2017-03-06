@@ -59,7 +59,7 @@ public class CreateProcessActivity extends AppCompatActivity {
         if (id == R.id.action_submit_process) {
             Log.d("Create Process", categories.getSelectedItem().toString());
 
-            Process newProcess = new Process(titleText.getText().toString(), descriptionText.getText().toString(), Process.Categories.education, 0);
+            //Process newProcess = new Process(titleText.getText().toString(), descriptionText.getText().toString(), Process.Categories.education.name(), 0);
             //TODO: insert the newly created process into the local database
             return true;
         }

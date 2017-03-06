@@ -49,12 +49,17 @@ public class Process {
         state       = ProcessState.PROCESS_PLANNING;
     }
 
-    public Process(String title, String description, Categories category, int creatorID) {
+    public Process(String title, String description, String category, int creatorID) {
         this.title = title;
         this.description = description;
-        this.category = category;
+        this.category = Categories.valueOf(category);
         this.creatorID = creatorID;
 
+        uniqueID    = 0;
+        creatorID   = 0;
+
+        taskList    = new ArrayList<>();
+        state       = ProcessState.PROCESS_PLANNING;
     }
 
 
@@ -78,6 +83,22 @@ public class Process {
     public int numTasks() {
         return taskList.size();
     }
+
+    public String getCsvTasks() {
+        String tasksString = "";
+        if(taskList == null || taskList.isEmpty()) {
+            return tasksString;
+        } else {
+            for (Task t : taskList) {
+                if (tasksString.equals(""))
+                    tasksString = Integer.toString(t.getTaskId());
+
+                tasksString = tasksString + "," + Integer.toString(t.getTaskId());
+            }
+        }
+        return tasksString;
+    }
+
     public Categories getCategory() {
         return category;
     }

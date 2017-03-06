@@ -22,12 +22,13 @@ public class Task {
     }
 
     private int        taskId;
+    private int        creatorId;
     private String     title;
     private String     description;
     private TaskStates state;
-    private int        creatorId;
 
     private ArrayList<Task> linkedTasks;
+
     /*
     TODO: Learn how to store a timestamp properly
     private time    startTimestamp;
@@ -48,8 +49,6 @@ public class Task {
     public void addTask(int order, Task task) { linkedTasks.add(task); }
 
     public void deleteLinkedTask(int pos) {linkedTasks.remove(pos);}
-
-    public ArrayList<Task> getAllLinkedTasks() {return linkedTasks;}
 
     public Task getLinkedTask(int pos) {return linkedTasks.get(pos);}
 
