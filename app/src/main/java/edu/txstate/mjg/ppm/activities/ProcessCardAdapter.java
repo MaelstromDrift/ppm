@@ -68,7 +68,6 @@ public class ProcessCardAdapter extends RecyclerView.Adapter<ProcessCardAdapter.
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView processTitle;
         TextView processDescription;
-        TextView startDate;
         TextView status;
 
         ViewHolder(View itemView) {
@@ -76,7 +75,6 @@ public class ProcessCardAdapter extends RecyclerView.Adapter<ProcessCardAdapter.
 
             processTitle = (TextView) itemView.findViewById(R.id.processTitle);
             processDescription = (TextView) itemView.findViewById(R.id.processDescription);
-            startDate = (TextView) itemView.findViewById(R.id.startDate);
             status = (TextView) itemView.findViewById(R.id.process_list_status);
         }
     }
