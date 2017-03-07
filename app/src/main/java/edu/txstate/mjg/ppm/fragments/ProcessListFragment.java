@@ -45,11 +45,10 @@ public class ProcessListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //  Intent createProcessIntent = new Intent(view.getContext(), CreateProcessActivity.class);
+               // Intent createProcessIntent = new Intent(view.getContext(), CreateProcessActivity.class);
                 //view.getContext().startActivity(createProcessIntent);
                 mProcessList.add(new Process());
                 mProcessList.get(mProcessList.size()-1).setTitle(Integer.toString(mProcessList.size()-1));
-
                 processRecycler.getAdapter().notifyDataSetChanged();
             }
         });
