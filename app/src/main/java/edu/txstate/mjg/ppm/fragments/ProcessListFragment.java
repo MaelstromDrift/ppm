@@ -1,8 +1,6 @@
 package edu.txstate.mjg.ppm.fragments;
 
 import android.app.Fragment;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,13 +36,7 @@ public class ProcessListFragment extends Fragment {
 
         final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-        dbHelper = new SQLiteDBHelper(view.getContext());
-        //TODO: This should be asynchronous
-        db = dbHelper.getWritableDatabase();
-
-        mProcessList = SQLUtils.getAllProcesses(db);
-
-        ProcessListAdapter processListAdapter = new ProcessListAdapter(view.getContext(), mProcessList);
+        ProcessCardAdapter processCardAdapter = new ProcessCardAdapter(view.getContext(), mProcessList);
 
         processRecycler.setAdapter(processListAdapter);
         processRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -53,13 +45,11 @@ public class ProcessListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent createProcessIntent = new Intent(view.getContext(), CreateProcessActivity.class);
-//                view.getContext().startActivity(createProcessIntent);
-//                mProcessList.add(new Process());
-//                mProcessList.get(mProcessList.size()-1).setTitle(Integer.toString(mProcessList.size()-1));
-                Process newProcess =  new Process("temp process", "This is a process inserted dynamically", "fitness", 0);
-                SQLUtils.insertProcess(db, newProcess);
-                refreshProcesses();
+               //  Intent createProcessIntent = new Intent(view.getContext(), CreateProcessActivity.class);
+                //view.getContext().startActivity(createProcessIntent);
+                mProcessList.add(new Process());
+                mProcessList.get(mProcessList.size()-1).setTitle(Integer.toString(mProcessList.size()-1));
+
                 processRecycler.getAdapter().notifyDataSetChanged();
             }
         });
