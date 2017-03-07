@@ -12,29 +12,29 @@ import java.util.List;
 import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.core.Process;
 
-public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.ViewHolder> {
+public class ProcessCardAdapter extends RecyclerView.Adapter<ProcessCardAdapter.ViewHolder> {
 
     private List<Process> mProcesses;
 
     private Context mContext;
 
-    public ProcessListAdapter(Context context, List<Process> processList) {
+    public ProcessCardAdapter(Context context, List<Process> processList) {
         mContext = context;
         mProcesses = processList;
     }
 
     @Override
-    public ProcessListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProcessCardAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View processView = inflater.inflate(R.layout.process_item, parent, false);
+        View processView = inflater.inflate(R.layout.process_card_view, parent, false);
         ViewHolder viewHolder = new ViewHolder(processView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ProcessListAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ProcessCardAdapter.ViewHolder viewHolder, int position) {
         Process process = mProcesses.get(position);
 
         TextView nameTextView = viewHolder.processTitle;
