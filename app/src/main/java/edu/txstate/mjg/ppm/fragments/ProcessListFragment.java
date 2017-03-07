@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.txstate.mjg.ppm.R;
-import edu.txstate.mjg.ppm.activities.CreateProcessActivity;
-import edu.txstate.mjg.ppm.activities.ProcessListAdapter;
+import edu.txstate.mjg.ppm.activities.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
@@ -38,7 +37,7 @@ public class ProcessListFragment extends Fragment {
 
         ProcessCardAdapter processCardAdapter = new ProcessCardAdapter(view.getContext(), mProcessList);
 
-        processRecycler.setAdapter(processListAdapter);
+        processRecycler.setAdapter(processCardAdapter);
         processRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
