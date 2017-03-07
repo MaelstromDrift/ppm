@@ -1,6 +1,7 @@
 package edu.txstate.mjg.ppm.fragments;
 
 import android.app.Fragment;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.activities.ProcessCardAdapter;
@@ -35,6 +35,12 @@ public class ProcessListFragment extends Fragment {
 
         final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
 
+        dbHelper = new SQLiteDBHelper(view.getContext());
+        //TODO: This should be asynchronous
+        db = dbHelper.getWritableDatabase();
+
+        mProcessList = SQLUtils.getAllProcesses(db);
+
         ProcessCardAdapter processCardAdapter = new ProcessCardAdapter(view.getContext(), mProcessList);
 
         processRecycler.setAdapter(processCardAdapter);
@@ -44,10 +50,13 @@ public class ProcessListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent createProcessIntent = new Intent(view.getContext(), CreateProcessActivity.class);
-                //view.getContext().startActivity(createProcessIntent);
-                mProcessList.add(new Process());
-                mProcessList.get(mProcessList.size()-1).setTitle(Integer.toString(mProcessList.size()-1));
+//                Intent createProcessIntent = new Intent(view.getContext(), CreateProcessActivity.class);
+//                view.getContext().startActivity(createProcessIntent);
+//                mProcessList.add(new Process());
+//                mProcessList.get(mProcessList.size()-1).setTitle(Integer.toString(mProcessList.size()-1));
+                Process newProcess =  new Process("temp process", "This is a process inserted dynamically", "fitness", 0);
+                SQLUtils.insertProcess(db, newProcess);
+                refreshProcesses();
                 processRecycler.getAdapter().notifyDataSetChanged();
             }
         });
