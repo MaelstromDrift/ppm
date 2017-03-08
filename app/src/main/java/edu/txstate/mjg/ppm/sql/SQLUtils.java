@@ -66,7 +66,7 @@ public class SQLUtils {
             ProcessEntry._ID,
             ProcessEntry.COLUMN_PROCESS_TITLE,
             ProcessEntry.COLUMN_PROCESS_DESCRIPTION,
-            ProcessEntry.COLUMN_PROCESS_LINKED_TASKS
+            ProcessEntry.COLUMN_PROCESS_CATEGORY
         };
 
         //Query the database for all entries
@@ -76,7 +76,7 @@ public class SQLUtils {
         while(cursor.moveToNext()) {
             processes.add(new Process(cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_TITLE)),
                     cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_DESCRIPTION)),
-                    "fitness", 0));
+                    cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_CATEGORY)), 0));
         }
         cursor.close();
         return processes;

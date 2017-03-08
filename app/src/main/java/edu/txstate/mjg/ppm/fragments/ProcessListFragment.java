@@ -4,8 +4,11 @@ import android.app.Fragment;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +22,12 @@ import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 
 public class ProcessListFragment extends Fragment {
+
     ArrayList<Process> mProcessList;
     SQLiteDatabase db;
     SQLiteDBHelper dbHelper;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    ProcessCardAdapter processCardAdapter;
 
-
-        //createDummyData(new Random().nextInt(100));
-    }
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.process_list_view, container, false);
@@ -41,7 +40,7 @@ public class ProcessListFragment extends Fragment {
 
         mProcessList = SQLUtils.getAllProcesses(db);
 
-        ProcessCardAdapter processCardAdapter = new ProcessCardAdapter(view.getContext(), mProcessList);
+        processCardAdapter = new ProcessCardAdapter(view.getContext(), mProcessList);
 
         processRecycler.setAdapter(processCardAdapter);
         processRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -50,26 +49,45 @@ public class ProcessListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent createProcessIntent = new Intent(view.getContext(), CreateProcessActivity.class);
-//                view.getContext().startActivity(createProcessIntent);
-//                mProcessList.add(new Process());
-//                mProcessList.get(mProcessList.size()-1).setTitle(Integer.toString(mProcessList.size()-1));
-                Process newProcess =  new Process("temp process", "This is a process inserted dynamically", "fitness", 0);
-                SQLUtils.insertProcess(db, newProcess);
-                refreshProcesses();
-                processRecycler.getAdapter().notifyDataSetChanged();
+                showDialog();
+                //refreshProcesses();
+             //   processRecycler.getAdapter().notifyDataSetChanged();
             }
         });
         return view;
     }
 
-    private void refreshProcesses() {
-        mProcessList = SQLUtils.getAllProcesses(db);
+    public void showDialog() {
+        FragmentManager fragmentManager = getFragmentManager();
+        CreateProcessDialog newFragment = new CreateProcessDialog();
+
+        //if (mIsLargeLayout) {
+       // newFragment.show(getFragmentManager(), "dialog");
+        //   } else {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+
+        transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
+        // }
     }
+
+    public void refreshProcesses() {
+        mProcessList.clear();
+        mProcessList.addAll(SQLUtils.getAllProcesses(db));
+    }
+
     @Override
     public void onStart() {
         super.onStart();
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        db.close();
+        dbHelper.close();
     }
 
     private void createDummyData(int numOfProcesses) {

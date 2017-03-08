@@ -14,9 +14,10 @@ public class Process {
 
     //TODO: think of better way to manage categories.
     public static enum Categories{
-        lifestyle,                  //0
-        fitness,                    //1
-        education                   //2
+        Lifestyle,
+        Fitness,
+        Education,
+        Misc
     }
 
     /*
@@ -45,7 +46,7 @@ public class Process {
         title       = "Example";
         description = "This is a test description";
         taskList    = new ArrayList<>();
-        category    = Categories.lifestyle;
+        category    = Categories.Lifestyle;
         state       = ProcessState.PROCESS_PLANNING;
     }
 

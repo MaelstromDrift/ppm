@@ -1,5 +1,7 @@
 package edu.txstate.mjg.ppm;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +13,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import edu.txstate.mjg.ppm.fragments.CreateProcessDialog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
+
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return super.onPrepareOptionsMenu(menu);

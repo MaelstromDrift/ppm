@@ -46,17 +46,7 @@ public class ProcessCardAdapter extends RecyclerView.Adapter<ProcessCardAdapter.
 
         TextView processStatus = viewHolder.status;
 
-        //Determine what status text to display
-        switch(process.getState()) {
-            case PROCESS_PLANNING:
-                processStatus.setText("Planning");
-                break;
-            case PROCESS_INPROGRESS:
-                processStatus.setText("In-Progress");
-                break;
-            case PROCESS_COMPLETED:
-                processStatus.setText("Completed");
-        }
+        processStatus.setText(process.getCategory().name());
     }
 
     @Override
