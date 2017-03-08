@@ -11,6 +11,9 @@
 
     <string name="drawer_open">Drawer Opened</string>
     <string name="drawer_close">Drawer Closed</string>
+
+    <string name="dialog_create_process">New Process</string>
+
     <string-array name="navigation_drawer_values">
         <item>All Processes</item>
         <item>Incomplete Processes</item>
