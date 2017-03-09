@@ -36,12 +36,13 @@ public class Task {
      */
 
     public Task() {
-        this.taskID = 0;
-        this.title = "Example Task";
-        this.description = "This is an example task";
+        this.taskID = 1;
+        this.title = "Default Task";
+        this.description = "This is the default Task!";
         this.creatorId = 0;
         this.state = TaskStates.notStarted;
     }
+    
     public Task(int taskID, String title, String description, int creatorId) {
         this.taskID = taskID;
         this.title = title;

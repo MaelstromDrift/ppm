@@ -40,17 +40,6 @@ public class Process {
     private Categories category;
 
     private ProcessState state;
-
-    public Process () {
-        uniqueID    = 0;
-        creatorID   = 0;
-        title       = "Example";
-        description = "This is a test description";
-        taskList    = new ArrayList<>();
-        category    = Categories.Lifestyle;
-        state       = ProcessState.PROCESS_PLANNING;
-    }
-
     public Process(String title, String description, String category, int creatorID) {
         this.title = title;
         this.description = description;
@@ -58,6 +47,7 @@ public class Process {
         this.creatorID = creatorID;
 
         taskList = new ArrayList<>();
+        taskList.add(new Task());
         state = ProcessState.PROCESS_PLANNING;
         uniqueID = 0;
     }
@@ -104,8 +94,8 @@ public class Process {
             for (Task t : taskList) {
                 if (tasksString.equals(""))
                     tasksString = Integer.toString(t.getTaskId());
-
-                tasksString = tasksString + "," + Integer.toString(t.getTaskId());
+                else
+                    tasksString = tasksString + "," + Integer.toString(t.getTaskId());
             }
         }
         return tasksString;

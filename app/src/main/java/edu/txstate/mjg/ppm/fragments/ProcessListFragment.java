@@ -73,6 +73,7 @@ public class ProcessListFragment extends Fragment {
     public void refreshProcesses() {
         mProcessList.clear();
         mProcessList.addAll(SQLUtils.getAllProcesses(db));
+        processCardAdapter.notifyDataSetChanged();
     }
 
     @Override
