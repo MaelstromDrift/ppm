@@ -1,10 +1,9 @@
 package edu.txstate.mjg.ppm.fragments;
 
-import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,9 +15,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import edu.txstate.mjg.ppm.R;
+import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
-import edu.txstate.mjg.ppm.core.Process;
 
 public class CreateProcessDialog extends DialogFragment {
 
@@ -44,6 +43,7 @@ public class CreateProcessDialog extends DialogFragment {
 
         sqLiteDBHelper = new SQLiteDBHelper(view.getContext());
 
+        //TODO: should be asynchronous
         db = sqLiteDBHelper.getWritableDatabase();
 
         toolbar = (Toolbar) view.findViewById(R.id.create_process_toolbar);
@@ -82,7 +82,7 @@ public class CreateProcessDialog extends DialogFragment {
         boolean valid = true;
         if((title.getText().toString().trim().isEmpty())) {
             valid = false;
-           //create toast message saying invalid title;
+            //create toast message saying invalid title;
         }
         if((description.getText().toString().trim().isEmpty())) {
             valid = false;

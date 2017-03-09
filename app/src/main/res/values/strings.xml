@@ -14,6 +14,9 @@
 
     <string name="dialog_create_process">New Process</string>
 
+    <string name="default_process_title">Default Title</string>
+    <string name="default_process_description">This is a brand new Process! Edit me to tell everyone what it\'s all about!</string>
+    <string name="process_card_missing_image">Missing Image</string>
     <string-array name="navigation_drawer_values">
         <item>All Processes</item>
         <item>Incomplete Processes</item>

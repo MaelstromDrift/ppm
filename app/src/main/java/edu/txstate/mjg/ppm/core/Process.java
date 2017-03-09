@@ -2,6 +2,7 @@ package edu.txstate.mjg.ppm.core;
 
 import java.util.ArrayList;
 
+
 public class Process {
 
     //TODO: Create the Process data structure to follow the tree format shown in the paper.
@@ -56,10 +57,20 @@ public class Process {
         this.category = Categories.valueOf(category);
         this.creatorID = creatorID;
 
-        uniqueID    = 0;
-        creatorID   = 0;
+        taskList = new ArrayList<>();
+        state = ProcessState.PROCESS_PLANNING;
+        uniqueID = 0;
+    }
 
-        taskList    = new ArrayList<>();
+    public Process(int uniqueID, String title, String description, String category, ArrayList<Task> linkedTasks, int creatorID) {
+        this.title = title;
+        this.description = description;
+        this.category = Categories.valueOf(category);
+        this.creatorID = creatorID;
+
+        this.uniqueID = uniqueID;
+
+        taskList    = linkedTasks;
         state       = ProcessState.PROCESS_PLANNING;
     }
 
@@ -100,6 +111,10 @@ public class Process {
         return tasksString;
     }
 
+
+    public ArrayList<Task> getTasks() {
+        return taskList;
+    }
     public Categories getCategory() {
         return category;
     }

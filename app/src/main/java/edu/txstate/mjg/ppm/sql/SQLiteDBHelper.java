@@ -3,6 +3,7 @@ package edu.txstate.mjg.ppm.sql;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import edu.txstate.mjg.ppm.sql.PPMDatabaseContract.ProcessEntry;
 import edu.txstate.mjg.ppm.sql.PPMDatabaseContract.TaskEntry;
 
@@ -28,7 +29,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 "(" +  TaskEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 TaskEntry.COLUMN_TASK_TITLE + " TEXT NOT NULL," +
                 TaskEntry.COLUMN_TASK_DESCRIPTION + " TEXT NOT NULL," +
-                TaskEntry.COLUMN_TASK_LINKED_TASKS + " TEXT NOT NULL," +
+                TaskEntry.COLUMN_TASK_LINKED_TASKS + " TEXT," +
                 TaskEntry.COLUMN_TASK_CREATOR_ID + " INTEGER NOT NULL" + ");";
 
         db.execSQL(SQL_CREATE_PROCESS_TABLE);
