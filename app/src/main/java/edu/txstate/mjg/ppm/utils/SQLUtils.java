@@ -1,4 +1,4 @@
-package edu.txstate.mjg.ppm.sql;
+package edu.txstate.mjg.ppm.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -11,10 +11,6 @@ import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.core.Task;
 import edu.txstate.mjg.ppm.sql.PPMDatabaseContract.ProcessEntry;
 import edu.txstate.mjg.ppm.sql.PPMDatabaseContract.TaskEntry;
-/**
- * Created by MarkGitthens on 3/5/2017.
- */
-
 /**
  * Need to be able to do these operations on the DB
  * 1: Check for process/task existence

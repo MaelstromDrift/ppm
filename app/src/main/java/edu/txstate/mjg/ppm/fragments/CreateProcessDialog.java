@@ -16,8 +16,8 @@ import android.widget.Spinner;
 
 import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.core.Process;
-import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
+import edu.txstate.mjg.ppm.utils.SQLUtils;
 
 public class CreateProcessDialog extends DialogFragment {
 

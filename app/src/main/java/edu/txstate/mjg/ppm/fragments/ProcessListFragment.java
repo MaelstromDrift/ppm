@@ -1,14 +1,13 @@
 package edu.txstate.mjg.ppm.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,8 @@ import java.util.ArrayList;
 import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.activities.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
-import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
+import edu.txstate.mjg.ppm.utils.SQLUtils;
 
 public class ProcessListFragment extends Fragment {
 
@@ -88,13 +87,5 @@ public class ProcessListFragment extends Fragment {
 
         db.close();
         dbHelper.close();
-    }
-
-    private void createDummyData(int numOfProcesses) {
-        for(int i = 0; i < numOfProcesses; i++) {
-            Process temp_process = new Process();
-            temp_process.setTitle("Title " + Integer.toString(i));
-            mProcessList.add(temp_process);
-        }
     }
 }
