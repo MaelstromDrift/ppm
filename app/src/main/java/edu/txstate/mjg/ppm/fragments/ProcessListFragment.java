@@ -11,11 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.activities.ProcessCardAdapter;
+import edu.txstate.mjg.ppm.activities.ProcessCardItemClickListener;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 import edu.txstate.mjg.ppm.utils.SQLUtils;
@@ -43,6 +45,19 @@ public class ProcessListFragment extends Fragment {
 
         processRecycler.setAdapter(processCardAdapter);
         processRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        processRecycler.addOnItemTouchListener(
+            new ProcessCardItemClickListener(view.getContext(), processRecycler, new ProcessCardItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    Toast.makeText(view.getContext(), "Clicked process", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onLongItemClick(View view, int position) {
+                    Toast.makeText(view.getContext(), "Long clicked process", Toast.LENGTH_SHORT).show();
+                }
+            })
+        );
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

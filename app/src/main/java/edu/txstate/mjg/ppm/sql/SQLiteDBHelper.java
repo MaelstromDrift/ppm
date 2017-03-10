@@ -1,5 +1,6 @@
 package edu.txstate.mjg.ppm.sql;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -32,8 +33,28 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 TaskEntry.COLUMN_TASK_LINKED_TASKS + " TEXT," +
                 TaskEntry.COLUMN_TASK_CREATOR_ID + " INTEGER NOT NULL" + ");";
 
+
+
+
         db.execSQL(SQL_CREATE_PROCESS_TABLE);
         db.execSQL(SQL_CREATE_TASKS_TABLE);
+
+       insertDefaultTask(db);
+    }
+
+    /**
+     * Important to insert a default task for newly created Processes.
+     * @param db
+     */
+    private void insertDefaultTask(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+
+        values.put(TaskEntry.COLUMN_TASK_TITLE, "Default Task");
+        values.put(TaskEntry.COLUMN_TASK_DESCRIPTION, "This is the default task!");
+        values.put(TaskEntry.COLUMN_TASK_LINKED_TASKS, "");
+        values.put(TaskEntry.COLUMN_TASK_CREATOR_ID, 0);
+
+        db.insert(TaskEntry.TABLE_NAME, null, values);
     }
 
     @Override
