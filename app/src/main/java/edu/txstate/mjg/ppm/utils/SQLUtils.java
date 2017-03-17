@@ -58,6 +58,7 @@ public class SQLUtils {
                 ProcessEntry.COLUMN_PROCESS_CREATOR_ID,
                 ProcessEntry.COLUMN_PROCESS_DESCRIPTION,
                 ProcessEntry.COLUMN_PROCESS_TITLE,
+                ProcessEntry.COLUMN_PROCESS_CATEGORY,
                 ProcessEntry._ID
         };
 

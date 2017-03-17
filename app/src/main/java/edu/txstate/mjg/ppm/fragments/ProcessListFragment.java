@@ -3,6 +3,7 @@ package edu.txstate.mjg.ppm.fragments;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -50,6 +51,11 @@ public class ProcessListFragment extends Fragment {
                 @Override
                 public void onItemClick(View view, int position) {
                     Toast.makeText(view.getContext(), "Clicked process", Toast.LENGTH_SHORT).show();
+                    Intent temp = new Intent().setClass(view.getContext(), edu.txstate.mjg.ppm.activities.ProcessInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("process_id", mProcessList.get(position).getUniqueID());
+                    temp.putExtras(bundle);
+                    view.getContext().startActivity(temp);
                 }
 
                 @Override
@@ -72,9 +78,11 @@ public class ProcessListFragment extends Fragment {
     }
 
     public void showDialog() {
+
         FragmentManager fragmentManager = getFragmentManager();
         CreateProcessDialog newFragment = new CreateProcessDialog();
 
+        //newFragment.show(fragmentManager, "dialog");
         //if (mIsLargeLayout) {
        // newFragment.show(getFragmentManager(), "dialog");
         //   } else {
