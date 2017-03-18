@@ -1,6 +1,7 @@
 package edu.txstate.mjg.ppm.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
@@ -11,9 +12,9 @@ import edu.txstate.mjg.ppm.utils.SQLUtils;
 
 public class ProcessInfoActivity extends AppCompatActivity {
 
-    private Process loadedProcess;
-    TextView title;
+    private Process mProcess;
     TextView description;
+    CollapsingToolbarLayout toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,13 +24,17 @@ public class ProcessInfoActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        loadedProcess = loadProcess(extras.getInt("process_id"));
-        description = (TextView) findViewById(R.id.process_info_description);
-
-        description.setText(loadedProcess.getDescription());
+        loadProcess(extras.getInt("process_id"));
     }
 
-    private Process loadProcess(int uID) {
-        return SQLUtils.getProcess((new SQLiteDBHelper(this)).getReadableDatabase(), uID);
+
+    private void loadProcess(int uID) {
+        mProcess = SQLUtils.getProcess((new SQLiteDBHelper(this)).getReadableDatabase(), uID);
+
+        toolbar = (CollapsingToolbarLayout) findViewById(R.id.process_info_collapsing_toolbar);
+        toolbar.setTitle(mProcess.getTitle());
+
+        description = (TextView) findViewById(R.id.process_info_description);
+        description.setText(mProcess.getDescription());
     }
 }
