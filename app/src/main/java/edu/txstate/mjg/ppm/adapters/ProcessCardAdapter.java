@@ -1,4 +1,4 @@
-package edu.txstate.mjg.ppm.activities;
+package edu.txstate.mjg.ppm.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

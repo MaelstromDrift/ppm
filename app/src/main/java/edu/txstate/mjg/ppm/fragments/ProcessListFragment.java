@@ -17,8 +17,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import edu.txstate.mjg.ppm.R;
-import edu.txstate.mjg.ppm.activities.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.activities.ProcessCardItemClickListener;
+import edu.txstate.mjg.ppm.adapters.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 import edu.txstate.mjg.ppm.utils.SQLUtils;

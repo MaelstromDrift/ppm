@@ -3,6 +3,7 @@ package edu.txstate.mjg.ppm.utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +158,9 @@ public class SQLUtils {
 
     private static ArrayList<Task> parseCSVTasks(SQLiteDatabase db, String csvTasks) {
         String[] parsedString = csvTasks.split(",");
+
         ArrayList<Task> tasks = new ArrayList<>();
+        Log.d("Tasks", tasks.toString());
         for(String s: parsedString) {
             tasks.add(SQLUtils.getTask(db, Integer.parseInt(s)));
         }
