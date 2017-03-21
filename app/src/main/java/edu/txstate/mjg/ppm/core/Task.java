@@ -42,7 +42,14 @@ public class Task {
         this.creatorId = 0;
         this.state = TaskStates.notStarted;
     }
-    
+
+    public Task(String title, String description, int creatorId) {
+        this.taskID = 1;
+        this.title = title;
+        this.description = description;
+        this.creatorId = creatorId;
+        this.state = TaskStates.notStarted;
+    }
     public Task(int taskID, String title, String description, int creatorId) {
         this.taskID = taskID;
         this.title = title;

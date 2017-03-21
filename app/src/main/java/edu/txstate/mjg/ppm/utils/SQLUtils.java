@@ -88,6 +88,19 @@ public class SQLUtils {
         return processes.get(0);
     }
 
+    //Returns the UID of the inserted process
+    public static long insertTask(SQLiteDatabase db, Task task) {
+        ContentValues values = new ContentValues();
+
+
+        values.put(TaskEntry.COLUMN_TASK_TITLE, task.getTitle());
+        values.put(TaskEntry.COLUMN_TASK_DESCRIPTION, task.getDescription());
+        values.put(TaskEntry.COLUMN_TASK_CREATOR_ID, task.getCreatorID());
+        values.put(TaskEntry.COLUMN_TASK_LINKED_TASKS, "0");
+
+        return db.insert(TaskEntry.TABLE_NAME, null, values);
+
+    }
     //TODO: Implement error handling when task doesn't exist
     public static Task getTask(SQLiteDatabase db, int taskID) {
         String[] projection = {
@@ -152,8 +165,22 @@ public class SQLUtils {
 
 
 
-    public static void updateTask(SQLiteDatabase db, Task task) {
+    public static void updateProcess(SQLiteDatabase db, Process process) {
+        ContentValues values = new ContentValues();
 
+
+        values.put(ProcessEntry.COLUMN_PROCESS_TITLE, process.getTitle());
+        values.put(ProcessEntry.COLUMN_PROCESS_DESCRIPTION, process.getDescription());
+        values.put(ProcessEntry.COLUMN_PROCESS_CATEGORY, process.getCategory().name());
+        values.put(ProcessEntry.COLUMN_PROCESS_CREATOR_ID, process.getCreatorID());
+        values.put(ProcessEntry.COLUMN_PROCESS_LINKED_TASKS, process.getCsvTasks());
+        String whereClause = "_id = ?";
+
+        String[] whereArgs = new String[] {
+                Integer.toString(process.getUniqueID())
+        };
+
+        db.update(ProcessEntry.TABLE_NAME, values, whereClause, whereArgs);
     }
 
     private static ArrayList<Task> parseCSVTasks(SQLiteDatabase db, String csvTasks) {
