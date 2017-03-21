@@ -57,6 +57,7 @@ public class CreateProcessDialog extends DialogFragment {
 
         categories.setAdapter(adapter);
 
+        //TODO: change toolbar to be used as SupportActionBar
         toolbar.setTitle("New Process");
         toolbar.inflateMenu(R.menu.menu_create_process);
 

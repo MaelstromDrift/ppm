@@ -1,15 +1,15 @@
 package edu.txstate.mjg.ppm.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import edu.txstate.mjg.ppm.R;
@@ -56,5 +56,19 @@ public class ProcessInfoActivity extends AppCompatActivity {
         description.setText(mProcess.getDescription());
 
         taskListView.setAdapter(new TaskListItemAdapter(this, R.layout.process_info_task_list_item, mProcess.getTasks()));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_create_task, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_submit_task) {
+            Toast.makeText(getBaseContext(), "Creating new task", Toast.LENGTH_SHORT).show();
+        }
+        return true;
     }
 }

@@ -9,9 +9,9 @@
             <!--The Toolbar's title will be set to the name of the process-->
             <android.support.v7.widget.Toolbar
                 android:id="@+id/process_info_toolbar"
+                android:background="@color/colorAccent"
                 android:layout_width="match_parent"
-                android:src="@drawable/default_bg"
-                android:layout_height="200dp"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
 
             <!--Image will be defaulted to the category. If an image is associated with the task that will be used-->
