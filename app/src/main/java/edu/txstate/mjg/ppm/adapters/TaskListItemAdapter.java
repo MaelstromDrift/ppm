@@ -20,7 +20,6 @@ public class TaskListItemAdapter extends ArrayAdapter<Task> {
     int layoutID;
     ArrayList<Task> data;
 
-    CheckBox completionBox;
     TextView taskTitle;
     TextView taskDescription;
 
@@ -40,7 +39,6 @@ public class TaskListItemAdapter extends ArrayAdapter<Task> {
             convertView = LayoutInflater.from(context).inflate(layoutID, parent, false);
         }
 
-        completionBox = (CheckBox) convertView.findViewById(R.id.process_info_task_item_checkbox);
         taskTitle = (TextView) convertView.findViewById(R.id.process_info_task_item_title);
         taskDescription = (TextView) convertView.findViewById(R.id.process_info_item_task_description);
 

@@ -14,8 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import edu.txstate.mjg.ppm.fragments.CreateProcessDialog;
-
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;

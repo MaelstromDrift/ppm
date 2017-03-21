@@ -47,22 +47,22 @@ public class ProcessListFragment extends Fragment {
         processRecycler.setAdapter(processCardAdapter);
         processRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
         processRecycler.addOnItemTouchListener(
-            new ProcessCardItemClickListener(view.getContext(), processRecycler, new ProcessCardItemClickListener.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    Toast.makeText(view.getContext(), "Clicked process", Toast.LENGTH_SHORT).show();
-                    Intent temp = new Intent().setClass(view.getContext(), edu.txstate.mjg.ppm.activities.ProcessInfoActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("process_id", mProcessList.get(position).getUniqueID());
-                    temp.putExtras(bundle);
-                    view.getContext().startActivity(temp);
-                }
+                new ProcessCardItemClickListener(view.getContext(), processRecycler, new ProcessCardItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(view.getContext(), "Clicked process", Toast.LENGTH_SHORT).show();
+                        Intent temp = new Intent().setClass(view.getContext(), edu.txstate.mjg.ppm.activities.ProcessInfoActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("process_id", mProcessList.get(position).getUniqueID());
+                        temp.putExtras(bundle);
+                        view.getContext().startActivity(temp);
+                    }
 
-                @Override
-                public void onLongItemClick(View view, int position) {
-                    Toast.makeText(view.getContext(), "Long clicked process", Toast.LENGTH_SHORT).show();
-                }
-            })
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        Toast.makeText(view.getContext(), "Long clicked process", Toast.LENGTH_SHORT).show();
+                    }
+                })
         );
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
@@ -70,8 +70,6 @@ public class ProcessListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 showDialog();
-                //refreshProcesses();
-             //   processRecycler.getAdapter().notifyDataSetChanged();
             }
         });
         return view;
