@@ -1,6 +1,7 @@
 package edu.txstate.mjg.ppm.activities;
 
 import android.os.Bundle;
+import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.adapters.TaskListItemAdapter;
 import edu.txstate.mjg.ppm.core.Process;
+import edu.txstate.mjg.ppm.fragments.CreateTaskDialog;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 import edu.txstate.mjg.ppm.utils.SQLUtils;
 
@@ -67,7 +69,8 @@ public class ProcessInfoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_submit_task) {
-            Toast.makeText(getBaseContext(), "Creating new task", Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = getFragmentManager();
+            new CreateTaskDialog().show(fragmentManager, "dialog");
         }
         return true;
     }
