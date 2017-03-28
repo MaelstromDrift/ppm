@@ -33,6 +33,13 @@ public class Process {
     private ArrayList<Task> taskList;
     private Categories category;
 
+    public Process() {
+        taskList = new ArrayList<>();
+        taskList.add(new Task());
+
+        uniqueID = 0;
+        creatorID = 0;
+    }
     public Process(String title, String description, String category, int creatorID) {
         this.title = title;
         this.description = description;
@@ -97,4 +104,6 @@ public class Process {
     }
 
     public void setTitle(String title) { this.title = title; }
+    public void setDescription(String description) { this.description = description;}
+    public void setCategory(String category) { this.category = Categories.valueOf(category); }
 }

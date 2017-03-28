@@ -15,15 +15,16 @@ import edu.txstate.mjg.ppm.R;
 public class CreateTaskDialog extends DialogFragment {
 
     public interface CreateTaskDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
-
+        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
     }
+
 
     CreateTaskDialogListener mListener;
 
     EditText title;
     EditText description;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

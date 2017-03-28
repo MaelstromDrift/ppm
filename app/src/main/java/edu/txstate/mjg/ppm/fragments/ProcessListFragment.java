@@ -1,15 +1,13 @@
 package edu.txstate.mjg.ppm.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import edu.txstate.mjg.ppm.R;
+import edu.txstate.mjg.ppm.activities.CreateProcessActivity;
 import edu.txstate.mjg.ppm.activities.ProcessCardItemClickListener;
 import edu.txstate.mjg.ppm.adapters.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
@@ -30,11 +29,12 @@ public class ProcessListFragment extends Fragment {
     SQLiteDatabase db;
     SQLiteDBHelper dbHelper;
     ProcessCardAdapter processCardAdapter;
-
+    Context mContext;
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.process_list_view, container, false);
 
+        mContext = view.getContext();
         final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         dbHelper = new SQLiteDBHelper(view.getContext());
@@ -80,22 +80,24 @@ public class ProcessListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         refreshProcesses();
-        Log.d("ProcessListFragment", "Resumed");
     }
     public void showDialog() {
 
-        FragmentManager fragmentManager = getFragmentManager();
-        CreateProcessDialog newFragment = new CreateProcessDialog();
+        Intent temp = new Intent().setClass(mContext, CreateProcessActivity.class);
+        mContext.startActivity(temp);
 
-        //newFragment.show(fragmentManager, "dialog");
-        //if (mIsLargeLayout) {
-       // newFragment.show(getFragmentManager(), "dialog");
-        //   } else {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
-        transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
-        // }
+//        FragmentManager fragmentManager = getFragmentManager();
+//        CreateProcessActivity newFragment = new CreateProcessActivity();
+//
+//        //newFragment.show(fragmentManager, "dialog");
+//        //if (mIsLargeLayout) {
+//       // newFragment.show(getFragmentManager(), "dialog");
+//        //   } else {
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//
+//        transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
+//        // }
     }
 
     public void refreshProcesses() {

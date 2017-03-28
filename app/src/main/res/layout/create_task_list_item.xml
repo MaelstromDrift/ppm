@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:src="@drawable/ic_clear_black_24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/create_task_list_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+
+        android:textColor="@color/primary_text_material_light"
+        android:textSize="16sp"
+        android:text="Default Task Title"/>
+
+</RelativeLayout>

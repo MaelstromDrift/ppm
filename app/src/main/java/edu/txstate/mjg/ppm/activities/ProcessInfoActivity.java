@@ -25,8 +25,7 @@ import edu.txstate.mjg.ppm.fragments.CreateTaskDialog;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 import edu.txstate.mjg.ppm.utils.SQLUtils;
 
-public class ProcessInfoActivity extends AppCompatActivity
-        implements CreateTaskDialog.CreateTaskDialogListener {
+public class ProcessInfoActivity extends AppCompatActivity {
 
     private Process mProcess;
     Toolbar toolbar;
@@ -69,35 +68,5 @@ public class ProcessInfoActivity extends AppCompatActivity
         description.setText(mProcess.getDescription());
 
         taskListView.setAdapter(new TaskListItemAdapter(this, R.layout.process_info_task_list_item, mProcess.getTasks()));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_create_task, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_submit_task) {
-            FragmentManager fragmentManager = getFragmentManager();
-            new CreateTaskDialog().show(fragmentManager, "dialog");
-        }
-        return true;
-    }
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        //insert task into database to generate the Unique ID;
-        //query the new task and add it to the process
-
-        long taskID = SQLUtils.insertTask(db, new Task(((CreateTaskDialog)dialog).getTitle(), ((CreateTaskDialog)dialog).getDescription(), 0));
-        mProcess.addTask(SQLUtils.getTask(db, (int) taskID));
-        SQLUtils.updateProcess(db, mProcess);
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-        dialog.getDialog().cancel();
     }
 }
