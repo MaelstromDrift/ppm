@@ -3,15 +3,10 @@ package edu.txstate.mjg.ppm.core;
 import java.util.ArrayList;
 
 
-public class Process {
+//    TODO: We cannot check for a process completion without having some type of user to track what tasks they have completed.
+//    TODO: Because of this we have no reason for the process to track state since it can be reused by other users.
 
-    //TODO: Create the Process data structure to follow the tree format shown in the paper.
-    //TODO; confirm that these are the three states that the process can be in at any time.
-    public enum ProcessState {
-        PROCESS_PLANNING,
-        PROCESS_INPROGRESS,
-        PROCESS_COMPLETED
-    }
+public class Process {
 
     //TODO: think of better way to manage categories.
     public static enum Categories{
@@ -29,7 +24,6 @@ public class Process {
         description:    A description of what this process aims to help accomplish
         taskList:       The list of tasks associated with this process
         category:       The category that the process belongs to.
-        state:          The current state of the process
     */
 
     private int uniqueID;
@@ -39,7 +33,13 @@ public class Process {
     private ArrayList<Task> taskList;
     private Categories category;
 
-    private ProcessState state;
+    public Process() {
+        taskList = new ArrayList<>();
+        taskList.add(new Task());
+
+        uniqueID = 0;
+        creatorID = 0;
+    }
     public Process(String title, String description, String category, int creatorID) {
         this.title = title;
         this.description = description;
@@ -48,7 +48,6 @@ public class Process {
 
         taskList = new ArrayList<>();
         taskList.add(new Task());
-        state = ProcessState.PROCESS_PLANNING;
         uniqueID = 0;
     }
 
@@ -61,7 +60,6 @@ public class Process {
         this.uniqueID = uniqueID;
 
         taskList    = linkedTasks;
-        state       = ProcessState.PROCESS_PLANNING;
     }
 
 
@@ -82,9 +80,6 @@ public class Process {
     public String getDescription() {
         return description;
     }
-    public int numTasks() {
-        return taskList.size();
-    }
 
     public String getCsvTasks() {
         String tasksString = "";
@@ -101,17 +96,14 @@ public class Process {
         return tasksString;
     }
 
-
     public ArrayList<Task> getTasks() {
         return taskList;
     }
     public Categories getCategory() {
         return category;
     }
-    public ProcessState getState() {return state;}
 
-    public void setState(ProcessState state) { this.state = state; }
-    public void setCategory(Categories category) { this.category = category; }
     public void setTitle(String title) { this.title = title; }
-    public void setDescription(String text) {description = text;}
+    public void setDescription(String description) { this.description = description;}
+    public void setCategory(String category) { this.category = Categories.valueOf(category); }
 }

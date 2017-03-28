@@ -1,4 +1,4 @@
-package edu.txstate.mjg.ppm.activities;
+package edu.txstate.mjg.ppm.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +14,7 @@ import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.core.Task;
 
-public class ProcessCardAdapter extends RecyclerView.Adapter<ProcessCardAdapter.CardViewHolder> implements View.OnClickListener {
+public class ProcessCardAdapter extends RecyclerView.Adapter<ProcessCardAdapter.CardViewHolder> {
 
     private List<Process> mProcesses;
 
@@ -35,10 +35,6 @@ public class ProcessCardAdapter extends RecyclerView.Adapter<ProcessCardAdapter.
         return viewHolder;
     }
 
-    @Override
-    public void onClick(View item) {
-
-    }
     @Override
     public void onBindViewHolder(ProcessCardAdapter.CardViewHolder viewHolder, int position) {
         Process process = mProcesses.get(position);

@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#b22c5a</color>
     <color name="colorAccent">#ff4081</color>
     <color name="primary_text_material_light">#000000</color>
+    <color name="secondary_text_material_light">#555555</color>
     <color name="cardview_title_text_color">#FFFFFF</color>
 </resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dialog_task_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:textSize="16sp"
+        android:textColor="@color/primary_text_material_light"
+        android:text="Task Name"/>
+    <EditText
+        android:id="@+id/dialog_task_title_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+
+        android:layout_below="@id/dialog_task_title_text"
+        android:hint="Type your Tasks name here"/>
+
+    <TextView
+        android:id="@+id/dialog_task_description_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+
+        android:layout_below="@id/dialog_task_title_form"
+        android:textSize="16sp"
+        android:textColor="@color/primary_text_material_light"
+        android:text="Description" />
+    <EditText
+        android:id="@+id/dialog_task_description_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:layout_below="@id/dialog_task_description_text"
+        android:hint="Type what you want to accomplish with this task here."/>
+</RelativeLayout>

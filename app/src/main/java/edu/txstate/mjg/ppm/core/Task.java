@@ -14,18 +14,10 @@ public class Task {
     startTimeStamp: the time when the task was started  (mm/dd/yyyy hh:mm)
     completionTimeStamp: the time when the task was finished (mm/dd/yyyy hh:mm)
      */
-
-    enum TaskStates {
-        notStarted,
-        inProgress,
-        completed
-    }
-
     private int        taskID;
     private int        creatorId;
     private String     title;
     private String     description;
-    private TaskStates state;
 
     private List<Task> linkedTasks;
 
@@ -40,15 +32,19 @@ public class Task {
         this.title = "Default Task";
         this.description = "This is the default Task!";
         this.creatorId = 0;
-        this.state = TaskStates.notStarted;
     }
-    
+
+    public Task(String title, String description, int creatorId) {
+        this.taskID = 1;
+        this.title = title;
+        this.description = description;
+        this.creatorId = creatorId;
+    }
     public Task(int taskID, String title, String description, int creatorId) {
         this.taskID = taskID;
         this.title = title;
         this.description = description;
         this.creatorId = creatorId;
-        this.state = TaskStates.notStarted;
     }
 
     //Linked Tasks Operations
@@ -75,15 +71,11 @@ public class Task {
 
     public int getCreatorID() { return creatorId; }
 
-    public TaskStates getState() { return state; }
 
     public void setTitle(String title) { this.title = title; }
 
     public void setDescription(String description) {this.description = description;}
 
-    public void setState(TaskStates state) {this.state = state;}
-
     public void setCreatorID(int userID) { creatorId = userID; }
 
-    public TaskStates getCompletionStatus() { return state; }
 }
