@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/process_list"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,8 +19,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.CreateProcessActivity"
-            android:label="New Process"
+            android:label="create process"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".activities.ProcessInfoActivity"
+            android:label="Process Info"
             android:theme="@style/AppTheme">
+
         </activity>
     </application>
 

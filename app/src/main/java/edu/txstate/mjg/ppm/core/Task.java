@@ -1,6 +1,6 @@
 package edu.txstate.mjg.ppm.core;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Task {
 
@@ -14,20 +14,13 @@ public class Task {
     startTimeStamp: the time when the task was started  (mm/dd/yyyy hh:mm)
     completionTimeStamp: the time when the task was finished (mm/dd/yyyy hh:mm)
      */
-
-    enum TaskStates {
-        notStarted,
-        inProgress,
-        completed
-    }
-
-    private int        taskId;
+    private int        taskID;
+    private int        creatorId;
     private String     title;
     private String     description;
-    private TaskStates state;
-    private int        creatorId;
 
-    private ArrayList<Task> linkedTasks;
+    private List<Task> linkedTasks;
+
     /*
     TODO: Learn how to store a timestamp properly
     private time    startTimestamp;
@@ -35,11 +28,23 @@ public class Task {
      */
 
     public Task() {
-        this.taskId = 0;
-        this.title = "Example Task";
-        this.description = "This is an example task";
+        this.taskID = 1;
+        this.title = "Default Task";
+        this.description = "This is the default Task!";
         this.creatorId = 0;
-        this.state = TaskStates.notStarted;
+    }
+
+    public Task(String title, String description, int creatorId) {
+        this.taskID = 1;
+        this.title = title;
+        this.description = description;
+        this.creatorId = creatorId;
+    }
+    public Task(int taskID, String title, String description, int creatorId) {
+        this.taskID = taskID;
+        this.title = title;
+        this.description = description;
+        this.creatorId = creatorId;
     }
 
     //Linked Tasks Operations
@@ -49,13 +54,11 @@ public class Task {
 
     public void deleteLinkedTask(int pos) {linkedTasks.remove(pos);}
 
-    public ArrayList<Task> getAllLinkedTasks() {return linkedTasks;}
-
     public Task getLinkedTask(int pos) {return linkedTasks.get(pos);}
 
     //General Task Operations
     public int getTaskId() {
-        return taskId;
+        return taskID;
     }
 
     public String getTitle() {
@@ -68,15 +71,11 @@ public class Task {
 
     public int getCreatorID() { return creatorId; }
 
-    public TaskStates getState() { return state; }
 
     public void setTitle(String title) { this.title = title; }
 
     public void setDescription(String description) {this.description = description;}
 
-    public void setState(TaskStates state) {this.state = state;}
-
     public void setCreatorID(int userID) { creatorId = userID; }
 
-    public TaskStates getCompletionStatus() { return state; }
 }
