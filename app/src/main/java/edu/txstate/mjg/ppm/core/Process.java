@@ -67,7 +67,9 @@ public class Process {
     public void addTask(Task task) {
         taskList.add(task);
     }
+    public void deleteTask(int taskID) {
 
+    }
     public int getUniqueID() {
         return uniqueID;
     }
