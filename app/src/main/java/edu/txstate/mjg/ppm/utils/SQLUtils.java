@@ -3,7 +3,6 @@ package edu.txstate.mjg.ppm.utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.List;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.core.Task;
 import edu.txstate.mjg.ppm.sql.PPMDatabaseContract.ProcessEntry;
+import edu.txstate.mjg.ppm.sql.PPMDatabaseContract.ProcessTaskEntry;
 import edu.txstate.mjg.ppm.sql.PPMDatabaseContract.TaskEntry;
 /**
  * Need to be able to do these operations on the DB
@@ -29,9 +29,17 @@ public class SQLUtils {
          values.put(ProcessEntry.COLUMN_PROCESS_DESCRIPTION, process.getDescription());
          values.put(ProcessEntry.COLUMN_PROCESS_CATEGORY, process.getCategory().name());
          values.put(ProcessEntry.COLUMN_PROCESS_CREATOR_ID, process.getCreatorID());
-         values.put(ProcessEntry.COLUMN_PROCESS_LINKED_TASKS, process.getCsvTasks());
 
-         db.insert(ProcessEntry.TABLE_NAME, null, values);
+         long processID = db.insert(ProcessEntry.TABLE_NAME, null, values);
+
+         //TODO: should insert the tasks the the DB here, not when the task is originally created
+         for(int i = 0; i < process.getTasks().size(); i++) {
+             values.clear();
+             values.put(ProcessTaskEntry.COLUMN_PROCESS, (int)processID);
+             values.put(ProcessTaskEntry.COLUMN_TASK, process.getTasks().get(i).getTaskId());
+             values.put(ProcessTaskEntry.COLUMN_ORDER, i);
+             db.insert(ProcessTaskEntry.TABLE_NAME, null, values);
+         }
 
          //if Exists in DB
         //  if canEdit
@@ -55,7 +63,6 @@ public class SQLUtils {
     }
     public static Process getProcess(SQLiteDatabase db, int processID) {
         String[] projection = {
-                ProcessEntry.COLUMN_PROCESS_LINKED_TASKS,
                 ProcessEntry.COLUMN_PROCESS_CREATOR_ID,
                 ProcessEntry.COLUMN_PROCESS_DESCRIPTION,
                 ProcessEntry.COLUMN_PROCESS_TITLE,
@@ -70,41 +77,38 @@ public class SQLUtils {
         };
 
         Cursor cursor = db.query(ProcessEntry.TABLE_NAME, projection, whereClause, whereArgs, null, null, null);
-        List<Process> processes = new ArrayList<>();
+        Process process = new Process();
 
-        //TODO: can this be done without creating arraylist and looping through it?
-        while(cursor.moveToNext()) {
-            //TODO: Get linked tasks
-            processes.add(new Process(cursor.getInt(cursor.getColumnIndexOrThrow(ProcessEntry._ID)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_TITLE)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_DESCRIPTION)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_CATEGORY)),
-                    parseCSVTasks(db, cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_LINKED_TASKS))),
-                    cursor.getInt(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_CREATOR_ID))
-            ));
-        }
+        cursor.moveToNext();
+
+        process.setUniqueID(cursor.getInt(cursor.getColumnIndexOrThrow(ProcessEntry._ID)));
+
+        process.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_TITLE)));
+        process.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_DESCRIPTION)));
+        process.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_CATEGORY)));
+        process.setCreatorID(cursor.getInt(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_CREATOR_ID)));
+
+        for(Task t: getFollowedTasks(db, process.getUniqueID()))
+            process.addTask(t);
+
         cursor.close();
 
-        return processes.get(0);
+        return process;
     }
 
     //Returns the UID of the inserted process
     public static long insertTask(SQLiteDatabase db, Task task) {
         ContentValues values = new ContentValues();
 
-
         values.put(TaskEntry.COLUMN_TASK_TITLE, task.getTitle());
         values.put(TaskEntry.COLUMN_TASK_DESCRIPTION, task.getDescription());
         values.put(TaskEntry.COLUMN_TASK_CREATOR_ID, task.getCreatorID());
-        values.put(TaskEntry.COLUMN_TASK_LINKED_TASKS, "0");
 
         return db.insert(TaskEntry.TABLE_NAME, null, values);
-
     }
     //TODO: Implement error handling when task doesn't exist
     public static Task getTask(SQLiteDatabase db, int taskID) {
         String[] projection = {
-                TaskEntry.COLUMN_TASK_LINKED_TASKS,
                 TaskEntry.COLUMN_TASK_CREATOR_ID,
                 TaskEntry.COLUMN_TASK_DESCRIPTION,
                 TaskEntry.COLUMN_TASK_TITLE,
@@ -139,7 +143,6 @@ public class SQLUtils {
             ProcessEntry.COLUMN_PROCESS_TITLE,
             ProcessEntry.COLUMN_PROCESS_DESCRIPTION,
             ProcessEntry.COLUMN_PROCESS_CATEGORY,
-            ProcessEntry.COLUMN_PROCESS_LINKED_TASKS,
             ProcessEntry.COLUMN_PROCESS_CREATOR_ID
         };
 
@@ -148,12 +151,17 @@ public class SQLUtils {
 
         ArrayList<Process> processes = new ArrayList<>();
         while(cursor.moveToNext()) {
-            processes.add(new Process(cursor.getInt(cursor.getColumnIndexOrThrow(ProcessEntry._ID)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_TITLE)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_DESCRIPTION)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_CATEGORY)),
-                    parseCSVTasks(db, cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_LINKED_TASKS))),
-                    cursor.getInt(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_CREATOR_ID))));
+            Process process = new Process();
+
+            process.setUniqueID(cursor.getInt(cursor.getColumnIndexOrThrow(ProcessEntry._ID)));
+            process.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_TITLE)));
+            process.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_DESCRIPTION)));
+            process.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_CATEGORY)));
+            process.setCreatorID(cursor.getInt(cursor.getColumnIndexOrThrow(ProcessEntry.COLUMN_PROCESS_CREATOR_ID)));
+
+            for(Task t: getFollowedTasks(db, process.getUniqueID()))
+                process.addTask(t);
+            processes.add(process);
         }
         cursor.close();
         return processes;
@@ -163,17 +171,37 @@ public class SQLUtils {
         return null;
     }
 
+    private static ArrayList<Task> getFollowedTasks(SQLiteDatabase db, int processID) {
+        String[] projection = {
+                ProcessTaskEntry.COLUMN_TASK,
+                ProcessTaskEntry.COLUMN_ORDER
+        };
 
+        String whereClause= ProcessTaskEntry.COLUMN_PROCESS + " = ?";
+        String[] whereArgs = {
+                Integer.toString(processID)
+        };
+
+        String orderBy = ProcessTaskEntry.COLUMN_ORDER;
+        //Query the database for all entries
+        Cursor cursor = db.query(ProcessTaskEntry.TABLE_NAME, projection, whereClause, whereArgs, null, null, orderBy);
+
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        while(cursor.moveToNext()) {
+            tasks.add(getTask(db, cursor.getInt(cursor.getColumnIndexOrThrow(ProcessTaskEntry.COLUMN_TASK))));
+        }
+        cursor.close();
+        return tasks;
+    }
 
     public static void updateProcess(SQLiteDatabase db, Process process) {
         ContentValues values = new ContentValues();
-
 
         values.put(ProcessEntry.COLUMN_PROCESS_TITLE, process.getTitle());
         values.put(ProcessEntry.COLUMN_PROCESS_DESCRIPTION, process.getDescription());
         values.put(ProcessEntry.COLUMN_PROCESS_CATEGORY, process.getCategory().name());
         values.put(ProcessEntry.COLUMN_PROCESS_CREATOR_ID, process.getCreatorID());
-        values.put(ProcessEntry.COLUMN_PROCESS_LINKED_TASKS, process.getCsvTasks());
         String whereClause = "_id = ?";
 
         String[] whereArgs = new String[] {
@@ -181,16 +209,5 @@ public class SQLUtils {
         };
 
         db.update(ProcessEntry.TABLE_NAME, values, whereClause, whereArgs);
-    }
-
-    private static ArrayList<Task> parseCSVTasks(SQLiteDatabase db, String csvTasks) {
-        String[] parsedString = csvTasks.split(",");
-
-        ArrayList<Task> tasks = new ArrayList<>();
-        Log.d("Tasks", tasks.toString());
-        for(String s: parsedString) {
-            tasks.add(SQLUtils.getTask(db, Integer.parseInt(s)));
-        }
-        return tasks;
     }
 }

@@ -35,40 +35,12 @@ public class Process {
 
     public Process() {
         taskList = new ArrayList<>();
-        taskList.add(new Task());
-
         uniqueID = 0;
         creatorID = 0;
     }
-    public Process(String title, String description, String category, int creatorID) {
-        this.title = title;
-        this.description = description;
-        this.category = Categories.valueOf(category);
-        this.creatorID = creatorID;
 
-        taskList = new ArrayList<>();
-        taskList.add(new Task());
-        uniqueID = 0;
-    }
-
-    public Process(int uniqueID, String title, String description, String category, ArrayList<Task> linkedTasks, int creatorID) {
-        this.title = title;
-        this.description = description;
-        this.category = Categories.valueOf(category);
-        this.creatorID = creatorID;
-
-        this.uniqueID = uniqueID;
-
-        taskList    = linkedTasks;
-    }
-
-
-    //TODO: Implement the core functionality of the process. Insert, Delete, Update, + helper functions
     public void addTask(Task task) {
         taskList.add(task);
-    }
-    public void deleteTask(int taskID) {
-
     }
     public int getUniqueID() {
         return uniqueID;
@@ -79,25 +51,7 @@ public class Process {
     public String getTitle() {
         return title;
     }
-    public String getDescription() {
-        return description;
-    }
-
-    public String getCsvTasks() {
-        String tasksString = "";
-        if(taskList == null || taskList.isEmpty()) {
-            return tasksString;
-        } else {
-            for (Task t : taskList) {
-                if (tasksString.equals(""))
-                    tasksString = Integer.toString(t.getTaskId());
-                else
-                    tasksString = tasksString + "," + Integer.toString(t.getTaskId());
-            }
-        }
-        return tasksString;
-    }
-
+    public String getDescription() { return description; }
     public ArrayList<Task> getTasks() {
         return taskList;
     }
@@ -105,6 +59,8 @@ public class Process {
         return category;
     }
 
+    public void setUniqueID(int id) {this.uniqueID = id;}
+    public void setCreatorID(int id) { this.creatorID = id;}
     public void setTitle(String title) { this.title = title; }
     public void setDescription(String description) { this.description = description;}
     public void setCategory(String category) { this.category = Categories.valueOf(category); }
