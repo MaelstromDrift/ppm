@@ -47,7 +47,7 @@ public class ApiRequest extends AsyncTask<String, Void, String> {
         Log.i("Server Exception", response);
     }
 
-    public void connect(String api) throws IOException {
+    private void connect(String api) throws IOException {
         apiUrl = new URL("http://10.0.0.5:5000/" + api);
         apiConnection = (HttpURLConnection) apiUrl.openConnection();
     }
