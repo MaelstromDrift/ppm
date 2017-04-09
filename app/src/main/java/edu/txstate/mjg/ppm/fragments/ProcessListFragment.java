@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import edu.txstate.mjg.ppm.activities.CreateProcessActivity;
 import edu.txstate.mjg.ppm.activities.ProcessCardItemClickListener;
 import edu.txstate.mjg.ppm.adapters.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
+import edu.txstate.mjg.ppm.server.ServerUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 import edu.txstate.mjg.ppm.utils.SQLUtils;
 
@@ -36,6 +38,10 @@ public class ProcessListFragment extends Fragment {
 
         mContext = view.getContext();
         final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+        ServerUtils server = new ServerUtils();
+
+        Log.d("Server stuff", server.getUserProcesses(1));
 
         dbHelper = new SQLiteDBHelper(view.getContext());
         //TODO: This should be asynchronous

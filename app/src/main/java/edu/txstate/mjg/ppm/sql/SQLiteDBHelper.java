@@ -34,6 +34,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         //TODO: Learn about foreign keys/primary keys
         final String SQL_CREATE_FOLLOWING_TABLE = " CREATE TABLE " + ProcessTaskEntry.TABLE_NAME +
+                "(" + ProcessTaskEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ProcessTaskEntry.COLUMN_PROCESS + " INTEGER NOT NULL, " +
                 ProcessTaskEntry.COLUMN_TASK + " INTEGER NOT NULL, " +
                 ProcessTaskEntry.COLUMN_ORDER + " INTEGER NOT NULL" + ");";
