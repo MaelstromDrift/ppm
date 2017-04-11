@@ -158,7 +158,20 @@ public class ServerUtils {
         returns: User if info is correct. null otherwise
      */
     public User verifyUser(String username, String password) {
-        return null;
+        try {
+            JSONObject json = new JSONObject();
+            json.put("username", username);
+            json.put("password", password);
+
+            JSONObject response = new JSONObject(api.post("verify/", json.toString()));
+            if(response.length() == 0) {
+                return null;
+            } else {
+                return new User(response);
+            }
+        } catch (JSONException e) {
+            return null;
+        }
     }
     /*
         params: Integer that identifies the user
@@ -172,6 +185,4 @@ public class ServerUtils {
         }
         return null;
     }
-
-
 }
