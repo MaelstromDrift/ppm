@@ -50,7 +50,7 @@ public class Task {
     //Linked Tasks Operations
     public void addTask(Task task) { linkedTasks.add(task); }
 
-    public void addTask(int order, Task task) { linkedTasks.add(task); }
+    public void addTask(Task task, int order) { linkedTasks.add(order, task); }
 
     public void deleteLinkedTask(int pos) {linkedTasks.remove(pos);}
 
@@ -72,6 +72,7 @@ public class Task {
     public int getCreatorID() { return creatorId; }
 
 
+    public void setUniqueId(int uniqueId) { this.taskID = uniqueId; }
     public void setTitle(String title) { this.title = title; }
 
     public void setDescription(String description) {this.description = description;}

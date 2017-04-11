@@ -23,7 +23,6 @@ import edu.txstate.mjg.ppm.adapters.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.server.ServerUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
-import edu.txstate.mjg.ppm.utils.SQLUtils;
 
 public class ProcessListFragment extends Fragment {
 
@@ -32,6 +31,8 @@ public class ProcessListFragment extends Fragment {
     SQLiteDBHelper dbHelper;
     ProcessCardAdapter processCardAdapter;
     Context mContext;
+
+    ServerUtils server;
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.process_list_view, container, false);
@@ -39,15 +40,15 @@ public class ProcessListFragment extends Fragment {
         mContext = view.getContext();
         final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-        ServerUtils server = new ServerUtils();
-
-        Log.d("Server stuff", server.getUserProcesses(1));
+        server = new ServerUtils();
 
         dbHelper = new SQLiteDBHelper(view.getContext());
         //TODO: This should be asynchronous
         db = dbHelper.getWritableDatabase();
 
-        mProcessList = SQLUtils.getAllProcesses(db);
+        mProcessList = server.getAllProcesses();
+
+        Log.d("Process List", Integer.toString(mProcessList.size()));
 
         processCardAdapter = new ProcessCardAdapter(view.getContext(), mProcessList);
 
@@ -85,7 +86,7 @@ public class ProcessListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        refreshProcesses();
+        //refreshProcesses();
     }
     public void showDialog() {
 
@@ -108,14 +109,13 @@ public class ProcessListFragment extends Fragment {
 
     public void refreshProcesses() {
         mProcessList.clear();
-        mProcessList.addAll(SQLUtils.getAllProcesses(db));
+        mProcessList = server.getAllProcesses();
         processCardAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     @Override

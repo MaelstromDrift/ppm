@@ -1,5 +1,8 @@
 package edu.txstate.mjg.ppm.core;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class User {
 
     //TODO: Password NEEDS to be encrypted in someway.
@@ -19,6 +22,18 @@ public class User {
         email = "default@default.com";
     }
 
+    public User(JSONObject object) {
+        try {
+            userId = object.getInt("_id");
+            username = object.getString("username");
+            firstName = object.getString("firstName");
+            lastName = object.getString("lastName");
+            password  = object.getString("password");
+            email = object.getString("email");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public void setUserId(int userId) { this.userId = userId;}
     public void setUsername(String username) { this.username = username; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
