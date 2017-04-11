@@ -98,6 +98,51 @@ public class ApiRequest{
             return null;
         }
     }
+
+    public String delete(final String URL, final String body) {
+        try {
+            AsyncTask<Void, Void, String> networkRequest = new AsyncTask<Void, Void, String>() {
+
+                protected String doInBackground(Void... v) {
+                    try {
+                        connect(URL);
+                        try {
+                            //Setup the connection to make a POST request.
+                            apiConnection.setDoOutput(true);
+                            apiConnection.setRequestMethod("DELETE");
+                            apiConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+                            OutputStream os = apiConnection.getOutputStream();
+                            os.write(body.getBytes("UTF-8"));
+                            os.close();
+
+                            BufferedInputStream bf = new BufferedInputStream(apiConnection.getInputStream());
+                            BufferedReader in = new BufferedReader(new InputStreamReader(bf, StandardCharsets.UTF_8));
+                            StringBuilder stringBuilder = new StringBuilder();
+                            String line;
+                            while ((line = in.readLine()) != null) {
+                                stringBuilder.append(line).append("\n");
+                            }
+                            in.close();
+                            return stringBuilder.toString();
+                        } finally {
+                            apiConnection.disconnect();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+
+                protected void onPostExecute(String response) {
+                }
+            };
+            return networkRequest.execute().get();
+        } catch(Exception e) {
+            return null;
+        }
+    }
     private void connect(String api) throws IOException {
         apiUrl = new URL("http://10.0.0.5:5000/" + api);
         apiConnection = (HttpURLConnection) apiUrl.openConnection();

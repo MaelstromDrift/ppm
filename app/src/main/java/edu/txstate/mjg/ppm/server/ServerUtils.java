@@ -73,7 +73,14 @@ public class ServerUtils {
         returns: An array of Processes that the user has created
      */
     public void unfollowProcess(int userId, int processId) {
-
+        try {
+            JSONObject json = new JSONObject();
+            json.put("userId", userId);
+            json.put("processId", processId);
+            api.delete("unfollow/", json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -82,6 +89,15 @@ public class ServerUtils {
         returns: nothing
      */
     public void followProcess(int userId, int processId) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("userId", userId);
+            json.put("processId", processId);
+
+            api.post("follow/", json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
