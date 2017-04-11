@@ -1,7 +1,6 @@
 package edu.txstate.mjg.ppm.server;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -80,7 +79,6 @@ public class ApiRequest{
                                 stringBuilder.append(line).append("\n");
                             }
                             in.close();
-                            Log.d("Server stuff", stringBuilder.toString());
                             return stringBuilder.toString();
                         } finally {
                             apiConnection.disconnect();
