@@ -14,6 +14,11 @@ import java.nio.charset.StandardCharsets;
 public class ApiRequest{
 
 
+    String baseURL;
+
+    public ApiRequest(String baseURL) {
+        this.baseURL = baseURL;
+    }
     //TODO: make sure everything is actually ASynchronous. get() isn't need to replace all calls to this function when possible.
     URL apiUrl;
     HttpURLConnection apiConnection;
@@ -43,9 +48,6 @@ public class ApiRequest{
                         e.printStackTrace();
                         return null;
                     }
-                }
-
-                protected void onPostExecute(String response) {
                 }
             };
             return networkRequest.execute().get();
@@ -89,9 +91,6 @@ public class ApiRequest{
                         return null;
                     }
                 }
-
-                protected void onPostExecute(String response) {
-                }
             };
             return networkRequest.execute().get();
         } catch(Exception e) {
@@ -134,9 +133,6 @@ public class ApiRequest{
                         return null;
                     }
                 }
-
-                protected void onPostExecute(String response) {
-                }
             };
             return networkRequest.execute().get();
         } catch(Exception e) {
@@ -144,7 +140,7 @@ public class ApiRequest{
         }
     }
     private void connect(String api) throws IOException {
-        apiUrl = new URL("http://10.0.0.5:5000/" + api);
+        apiUrl = new URL(baseURL + api);
         apiConnection = (HttpURLConnection) apiUrl.openConnection();
     }
 }

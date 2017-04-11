@@ -12,7 +12,7 @@ import edu.txstate.mjg.ppm.core.User;
 
 public class ServerUtils {
 
-    ApiRequest api = new ApiRequest();
+    ApiRequest api = new ApiRequest("http://10.0.0.5:5000/");
 
     /*
     params: NONE
@@ -24,7 +24,14 @@ public class ServerUtils {
             JSONArray json = new JSONArray(api.get("all_processes/").trim());
 
             for(int i = 0; i < json.length(); i++) {
-                processes.add(new Process(json.getJSONObject(i)));
+                Process temp = new Process(json.getJSONObject(i));
+
+                JSONArray tasksList = json.getJSONObject(i).getJSONArray("tasks");
+
+                for(int j = 0; j < tasksList.length(); j++) {
+                    temp.addTask(getTask(tasksList.getInt(j)));
+                }
+                processes.add(temp);
             }
         } catch(Exception e) {
             e.printStackTrace();
@@ -42,7 +49,14 @@ public class ServerUtils {
             JSONArray json = new JSONArray(api.get("user_processes/" + Integer.toString(userId)).trim());
 
             for(int i = 0; i < json.length(); i++) {
-                processes.add(new Process(json.getJSONObject(i)));
+                Process temp = new Process(json.getJSONObject(i));
+
+                JSONArray tasksList = json.getJSONObject(i).getJSONArray("tasks");
+
+                for(int j = 0; j < tasksList.length(); j++) {
+                    temp.addTask(getTask(tasksList.getInt(j)));
+                }
+                processes.add(temp);
             }
         } catch(Exception e) {
             e.printStackTrace();
@@ -189,13 +203,34 @@ public class ServerUtils {
             return null;
         }
     }
+
     /*
-        params: Integer that identifies the user
+    params: Integer that identifies the task
+    returns: The task identified by the param, null if it does not exist
+ */
+    public Task getTask(final int taskId) {
+        try {
+            JSONObject json = new JSONObject(api.get("task/" + Integer.toString(taskId)));
+            return new Task(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    /*
+        params: Integer that identifies the process
         returns: The process identified by the param, null if it does not exist
      */
     public Process getProcess(final int processId) {
         try {
-            return new Process(new JSONObject(api.get("process/" + Integer.toString(processId))));
+            JSONObject json = new JSONObject(api.get("process/" + Integer.toString(processId)));
+            Process process = new Process(json);
+
+            JSONArray tasksList = json.getJSONArray("tasks");
+            for(int i = 0; i < tasksList.length(); i++) {
+                process.addTask(getTask(tasksList.getInt(i)));
+            }
+            return process;
         } catch (JSONException e) {
             e.printStackTrace();
         }

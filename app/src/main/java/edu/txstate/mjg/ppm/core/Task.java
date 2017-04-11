@@ -1,5 +1,8 @@
 package edu.txstate.mjg.ppm.core;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class Task {
@@ -34,6 +37,16 @@ public class Task {
         this.creatorId = 0;
     }
 
+    public Task(JSONObject object) {
+        try {
+            taskID = object.getInt("_id");
+            title = object.getString("title");
+            description = object.getString("description");
+            creatorId = object.getInt("creatorId");
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public Task(String title, String description, int creatorId) {
         this.taskID = 1;
         this.title = title;
