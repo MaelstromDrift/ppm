@@ -1,5 +1,7 @@
 package edu.txstate.mjg.ppm.server;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +14,7 @@ import edu.txstate.mjg.ppm.core.User;
 
 public class ServerUtils {
 
-    ApiRequest api = new ApiRequest("http://10.0.0.5:5000/");
+    ApiRequest api = new ApiRequest("http://70.113.44.188:5000/");
 
     /*
     params: NONE
@@ -193,7 +195,9 @@ public class ServerUtils {
             json.put("username", username);
             json.put("password", password);
 
+            Log.d("ServerUtils", "getting response");
             JSONObject response = new JSONObject(api.post("verify/", json.toString()));
+            Log.d("ServerUtils", "got response\n" + response.toString());
             if(response.length() == 0) {
                 return null;
             } else {

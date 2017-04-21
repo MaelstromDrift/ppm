@@ -36,12 +36,14 @@
             android:layout_width="match_parent"
             android:background="?attr/colorPrimary"/>
 
+<!--
         <fragment
             android:name="edu.txstate.mjg.ppm.fragments.ProcessListFragment"
             android:id="@+id/process_list_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout="@layout/process_list_view" />
+-->
 
 
     </LinearLayout>

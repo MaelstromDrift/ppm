@@ -1,5 +1,7 @@
 package edu.txstate.mjg.ppm;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import edu.txstate.mjg.ppm.core.User;
+import edu.txstate.mjg.ppm.fragments.ProcessListFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -20,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayAdapter<String> navDrawerAdapter;
+
+    public static User mUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,23 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
+        //TODO: User should keep track of followed processes
+        startFragment();
+    }
+
+    void startFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        ProcessListFragment newFragment = new ProcessListFragment();
+
+        newFragment.setArguments(getIntent().getExtras());
+        //newFragment.show(fragmentManager, "dialog");
+        //if (mIsLargeLayout) {
+       // newFragment.show(getFragmentManager(), "dialog");
+        //   } else {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+
+        transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
     }
 
     void initViews() {

@@ -21,6 +21,7 @@ import edu.txstate.mjg.ppm.activities.CreateProcessActivity;
 import edu.txstate.mjg.ppm.activities.ProcessCardItemClickListener;
 import edu.txstate.mjg.ppm.adapters.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
+import edu.txstate.mjg.ppm.core.User;
 import edu.txstate.mjg.ppm.server.ServerUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 
@@ -33,9 +34,14 @@ public class ProcessListFragment extends Fragment {
     Context mContext;
 
     ServerUtils server;
+
+    User mUser;
+
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.process_list_view, container, false);
+
+        initUser();
 
         mContext = view.getContext();
         final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -46,7 +52,7 @@ public class ProcessListFragment extends Fragment {
         //TODO: This should be asynchronous
         db = dbHelper.getWritableDatabase();
 
-        mProcessList = server.getAllProcesses();
+        mProcessList = server.getUserProcesses(mUser.getUserId());
 
         Log.d("Process List", Integer.toString(mProcessList.size()));
 
@@ -83,6 +89,16 @@ public class ProcessListFragment extends Fragment {
         return view;
     }
 
+    public void initUser() {
+        int id = getArguments().getInt("id");
+        String username = getArguments().getString("username");
+        String password = getArguments().getString("password");
+        String firstName = getArguments().getString("firstName");
+        String lastName = getArguments().getString("lastName");
+        String email = getArguments().getString("email");
+
+        mUser = new User(id, username, password, firstName, lastName, email);
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -109,7 +125,7 @@ public class ProcessListFragment extends Fragment {
 
     public void refreshProcesses() {
         mProcessList.clear();
-        mProcessList = server.getAllProcesses();
+        mProcessList = server.getUserProcesses(mUser.getUserId());
         processCardAdapter.notifyDataSetChanged();
     }
 

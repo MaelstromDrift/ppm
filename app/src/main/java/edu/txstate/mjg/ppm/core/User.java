@@ -22,6 +22,15 @@ public class User {
         email = "default@default.com";
     }
 
+    public User(int userId, String username, String password, String firstName, String lastName, String email) {
+        this.userId = userId;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+    }
+
     public User(JSONObject object) {
         try {
             userId = object.getInt("_id");

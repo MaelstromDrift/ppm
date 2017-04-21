@@ -3,7 +3,7 @@ package edu.txstate.mjg.ppm;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import edu.txstate.mjg.ppm.core.User;
+import edu.txstate.mjg.ppm.server.ServerUtils;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -23,8 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
-
+    public User mUser;
+    private ServerUtils serverUtils;
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
@@ -35,7 +37,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        serverUtils = new ServerUtils();
         // Set up the login form.
+
         mEmailView = (EditText) findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -68,62 +73,39 @@ public class LoginActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
+        final String user = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(user)) {
             mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
         }
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+
+        // Show a progress spinner, and kick off a background task to
+        // perform the user login attempt.
+        //showProgress(true);
+
+        mUser = serverUtils.verifyUser(user, password);
+
+        if(mUser != null) {
+            finish();
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+    public void finish() {
+        Intent temp = new Intent().setClass(this, edu.txstate.mjg.ppm.MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", mUser.getUserId());
+        bundle.putString("firstName", mUser.getFirstName());
+        bundle.putString("lastName", mUser.getLastName());
+        bundle.putString("username", mUser.getUsername());
+        bundle.putString("email", mUser.getEmail());
+        bundle.putString("password", mUser.getPassword());
+        temp.putExtras(bundle);
+        this.startActivity(temp);
     }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -157,48 +139,6 @@ public class LoginActivity extends AppCompatActivity {
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }
