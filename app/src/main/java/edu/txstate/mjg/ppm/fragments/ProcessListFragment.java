@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +52,9 @@ public class ProcessListFragment extends Fragment {
         //TODO: This should be asynchronous
         db = dbHelper.getWritableDatabase();
 
-        mProcessList = server.getUserProcesses(mUser.getUserId());
-        SQLUtils.updateFromServer(server);
+        SQLUtils.updateFromServer(db, server, mUser.getUserId());
 
-        Log.d("Process List", Integer.toString(mProcessList.size()));
+        mProcessList = SQLUtils.getAllProcesses(db);
 
         processCardAdapter = new ProcessCardAdapter(view.getContext(), mProcessList);
 

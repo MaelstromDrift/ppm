@@ -41,6 +41,27 @@ public class ServerUtils {
         return processes;
     }
 
+
+    public ArrayList<Process> getFollowedProcesses(final int userId) {
+        ArrayList<Process> processes = new ArrayList<>();
+        try {
+            JSONArray json = new JSONArray(api.get("followed_processes/" + Integer.toString(userId)).trim());
+
+            for(int i = 0; i < json.length(); i++) {
+                Process temp = new Process(json.getJSONObject(i));
+
+                JSONArray tasksList = json.getJSONObject(i).getJSONArray("tasks");
+
+                for (int j = 0; j < tasksList.length(); j++) {
+                    temp.addTask(getTask(tasksList.getInt(j)));
+                }
+                processes.add(temp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return processes;
+    }
     /*
         params: Integer that identifies the user
         returns: An array of Processes that the user has created
