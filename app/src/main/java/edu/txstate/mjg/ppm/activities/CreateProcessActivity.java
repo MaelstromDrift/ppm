@@ -25,8 +25,8 @@ import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.core.Task;
 import edu.txstate.mjg.ppm.fragments.CreateTaskDialog;
+import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
-import edu.txstate.mjg.ppm.utils.SQLUtils;
 
 public class CreateProcessActivity extends AppCompatActivity implements CreateTaskDialog.CreateTaskDialogListener {
 

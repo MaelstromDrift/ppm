@@ -23,6 +23,7 @@ import edu.txstate.mjg.ppm.adapters.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.core.User;
 import edu.txstate.mjg.ppm.server.ServerUtils;
+import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 
 public class ProcessListFragment extends Fragment {
@@ -53,6 +54,7 @@ public class ProcessListFragment extends Fragment {
         db = dbHelper.getWritableDatabase();
 
         mProcessList = server.getUserProcesses(mUser.getUserId());
+        SQLUtils.updateFromServer(server);
 
         Log.d("Process List", Integer.toString(mProcessList.size()));
 

@@ -1,4 +1,4 @@
-package edu.txstate.mjg.ppm.utils;
+package edu.txstate.mjg.ppm.sql;
 
 import android.content.ContentValues;
 import android.database.Cursor;
