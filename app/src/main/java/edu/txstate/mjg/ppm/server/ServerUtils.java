@@ -1,7 +1,5 @@
 package edu.txstate.mjg.ppm.server;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -164,14 +162,27 @@ public class ServerUtils {
      */
     public void createNewProcess(Process process) {
         try {
+            ArrayList<Task> tasks = process.getTasks();
+            int[] tasksList = new int[tasks.size()];
+            for(Task t: tasks) {
+                createNewTask(t);
+            }
+
             JSONObject body = new JSONObject();
             body.put("title", process.getTitle());
             body.put("description", process.getDescription());
+
+            for(int i = 0; i < tasksList.length; i++) {
+                tasksList[i] = tasks.get(i).getTaskId();
+            }
+            body.put("tasks", new JSONArray(tasksList));
             body.put("creatorId", process.getCreatorID());
             body.put("categoryId", 1);
 
             String result = api.post("process/", body.toString()).trim();
             process.setUniqueID(Integer.parseInt(result));
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -216,9 +227,7 @@ public class ServerUtils {
             json.put("username", username);
             json.put("password", password);
 
-            Log.d("ServerUtils", "getting response");
             JSONObject response = new JSONObject(api.post("verify/", json.toString()));
-            Log.d("ServerUtils", "got response\n" + response.toString());
             if(response.length() == 0) {
                 return null;
             } else {

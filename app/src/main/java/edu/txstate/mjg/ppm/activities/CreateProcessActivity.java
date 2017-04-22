@@ -25,6 +25,7 @@ import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.core.Task;
 import edu.txstate.mjg.ppm.fragments.CreateTaskDialog;
+import edu.txstate.mjg.ppm.server.ServerUtils;
 import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 
@@ -43,13 +44,15 @@ public class CreateProcessActivity extends AppCompatActivity implements CreateTa
     SQLiteDBHelper sqLiteDBHelper;
 
     Process mProcess;
-
+    int mUserID;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_process_create);
 
         mProcess = new Process();
+
+        mUserID = getIntent().getExtras().getInt("id");
 
         sqLiteDBHelper = new SQLiteDBHelper(this);
 
@@ -147,7 +150,11 @@ public class CreateProcessActivity extends AppCompatActivity implements CreateTa
                 mProcess.setTitle(title.getText().toString().trim());
                 mProcess.setDescription(description.getText().toString().trim());
                 mProcess.setCategory(categories.getSelectedItem().toString());
+                mProcess.setCreatorID(mUserID);
 
+                ServerUtils temp = new ServerUtils();
+                temp.createNewProcess(mProcess);
+                temp.followProcess(mUserID, mProcess.getUniqueID());
                 SQLUtils.insertProcess(db, mProcess);
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 finish();
@@ -163,8 +170,8 @@ public class CreateProcessActivity extends AppCompatActivity implements CreateTa
         //insert task into database to generate the Unique ID;
         //query the new task and add it to the process
 
-        long taskID = SQLUtils.insertTask(db, new Task(((CreateTaskDialog)dialog).getTitle(), ((CreateTaskDialog)dialog).getDescription(), 0));
-        mProcess.addTask(SQLUtils.getTask(db, (int) taskID));
+        //long taskID = SQLUtils.insertTask(db, new Task(((CreateTaskDialog)dialog).getTitle(), ((CreateTaskDialog)dialog).getDescription(), 0));
+        mProcess.addTask(new Task(((CreateTaskDialog)dialog).getTitle(), ((CreateTaskDialog)dialog).getDescription(), mUserID));
         taskArrayAdapter.notifyDataSetChanged();
 
     }

@@ -44,6 +44,7 @@ public class SQLUtils {
 
              //TODO: should insert the tasks to the DB here, not when the task is originally created
              for (int i = 0; i < process.getTasks().size(); i++) {
+                 insertTask(db, process.getTasks().get(i));
                  values.clear();
                  values.put(ProcessTaskEntry.COLUMN_PROCESS, (int) processID);
                  values.put(ProcessTaskEntry.COLUMN_TASK, process.getTasks().get(i).getTaskId());
@@ -51,26 +52,8 @@ public class SQLUtils {
                  db.insert(ProcessTaskEntry.TABLE_NAME, null, values);
              }
          }
-         //if Exists in DB
-        //  if canEdit
-        //      update the row
-        //  else
-        //      create new row
-        //else
-        //  create new row
     }
 
-    public static Boolean exists(SQLiteDatabase db, int uID, int type) {
-        if(type == 0)
-            return true;
-            //check for existence of process
-        else if(type == 1)
-            return true;
-            //check for existence of task
-        else
-            return false;
-            //default return false;
-    }
     public static Process getProcess(SQLiteDatabase db, int processID) {
         String[] projection = {
                 ProcessEntry.COLUMN_PROCESS_CREATOR_ID,
@@ -87,7 +70,6 @@ public class SQLUtils {
         };
 
         Cursor cursor = db.query(ProcessEntry.TABLE_NAME, projection, whereClause, whereArgs, null, null, null);
-
 
         cursor.moveToNext();
 
@@ -111,16 +93,18 @@ public class SQLUtils {
         }
     }
 
-    //Returns the UID of the inserted process
+    //Returns the UID of the inserted task entry
     public static long insertTask(SQLiteDatabase db, Task task) {
         ContentValues values = new ContentValues();
 
+        values.put(TaskEntry._ID, task.getTaskId());
         values.put(TaskEntry.COLUMN_TASK_TITLE, task.getTitle());
         values.put(TaskEntry.COLUMN_TASK_DESCRIPTION, task.getDescription());
         values.put(TaskEntry.COLUMN_TASK_CREATOR_ID, task.getCreatorID());
 
         return db.insert(TaskEntry.TABLE_NAME, null, values);
     }
+
     //TODO: Implement error handling when task doesn't exist
     public static Task getTask(SQLiteDatabase db, int taskID) {
         String[] projection = {

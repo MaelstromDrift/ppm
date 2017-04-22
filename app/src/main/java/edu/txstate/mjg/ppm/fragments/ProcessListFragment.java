@@ -107,6 +107,10 @@ public class ProcessListFragment extends Fragment {
     public void showDialog() {
 
         Intent temp = new Intent().setClass(mContext, CreateProcessActivity.class);
+
+        temp.putExtra("id", mUser.getUserId());
+
+
         mContext.startActivity(temp);
 
 //        FragmentManager fragmentManager = getFragmentManager();

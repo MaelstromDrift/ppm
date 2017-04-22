@@ -1,6 +1,5 @@
 package edu.txstate.mjg.ppm.sql;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -43,22 +42,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_PROCESS_TABLE);
         db.execSQL(SQL_CREATE_TASKS_TABLE);
         db.execSQL(SQL_CREATE_FOLLOWING_TABLE);
-
-       insertDefaultTask(db);
-    }
-
-    /**
-     * This might not be needed anymore due to the new approach of tracking processes tasks.
-     * @param db
-     */
-    private void insertDefaultTask(SQLiteDatabase db) {
-        ContentValues values = new ContentValues();
-
-        values.put(TaskEntry.COLUMN_TASK_TITLE, "Default Task");
-        values.put(TaskEntry.COLUMN_TASK_DESCRIPTION, "This is the default task!");
-        values.put(TaskEntry.COLUMN_TASK_CREATOR_ID, 0);
-
-        db.insert(TaskEntry.TABLE_NAME, null, values);
     }
 
     @Override
