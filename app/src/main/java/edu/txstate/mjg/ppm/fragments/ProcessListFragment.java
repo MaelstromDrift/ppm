@@ -102,7 +102,7 @@ public class ProcessListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //refreshProcesses();
+        refreshProcesses();
     }
     public void showDialog() {
 
@@ -128,8 +128,8 @@ public class ProcessListFragment extends Fragment {
     }
 
     public void refreshProcesses() {
-        mProcessList.clear();
-        mProcessList = server.getUserProcesses(mUser.getUserId());
+        SQLUtils.updateFromServer(db, server, mUser.getUserId());
+        mProcessList = SQLUtils.getAllProcesses(db);
         processCardAdapter.notifyDataSetChanged();
     }
 

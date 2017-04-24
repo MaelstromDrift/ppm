@@ -79,11 +79,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void done() {
         Intent temp = new Intent();
-        temp.setClass(this, edu.txstate.mjg.ppm.MainActivity.class);
+        temp.setClass(this, edu.txstate.mjg.ppm.LoginActivity.class);
         this.startActivity(temp);
     }
     public boolean verify_password(String password, String confirm) {
-        if(password == confirm) {
+        if(password.equals(confirm)) {
             return true;
         }
         return false;

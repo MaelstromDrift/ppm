@@ -22,14 +22,14 @@ import edu.txstate.mjg.ppm.sql.PPMDatabaseContract.TaskEntry;
  * 4: delete processes/tasks
  */
 public class SQLUtils {
-
-
     public static void updateFromServer(SQLiteDatabase db, ServerUtils server, int userId) {
         ArrayList<Process> processes = server.getFollowedProcesses(userId);
         for(Process p: processes) {
             insertProcess(db, p);
         }
     }
+
+
      public static void insertProcess(SQLiteDatabase db, Process process) {
          if(getProcess(db, process.getUniqueID()) == null) {
              ContentValues values = new ContentValues();

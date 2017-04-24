@@ -12,6 +12,7 @@ import edu.txstate.mjg.ppm.core.User;
 
 public class ServerUtils {
 
+    //TODO: Need to create a method to implement the interface in APIRequest.
     ApiRequest api = new ApiRequest("http://70.113.44.188:5000/");
 
     /*
@@ -203,7 +204,7 @@ public class ServerUtils {
             body.put("email", user.getEmail());
 
             String result = api.post("user/", body.toString().trim());
-            user.setUserId(Integer.parseInt(result));
+            user.setUserId(Integer.parseInt(result.trim()));
         } catch (JSONException e) {
             e.printStackTrace();
         }

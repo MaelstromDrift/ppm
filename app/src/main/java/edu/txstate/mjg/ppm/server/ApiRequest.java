@@ -19,6 +19,7 @@ public class ApiRequest{
     public ApiRequest(String baseURL) {
         this.baseURL = baseURL;
     }
+    //TODO: Create an interface so that we can dynamically update the UI.
     //TODO: make sure everything is actually ASynchronous. get() isn't need to replace all calls to this function when possible.
     URL apiUrl;
     HttpURLConnection apiConnection;

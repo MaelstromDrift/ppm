@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import edu.txstate.mjg.ppm.core.User;
 import edu.txstate.mjg.ppm.server.ServerUtils;
+import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -32,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    private Button mRegisterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        Button mRegisterButton = (Button) findViewById(R.id.register_button);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent temp = new Intent().setClass(getApplicationContext(), edu.txstate.mjg.ppm.activities.RegisterActivity.class);
+                startActivity(temp);
+            }
+        });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -104,6 +116,13 @@ public class LoginActivity extends AppCompatActivity {
         bundle.putString("email", mUser.getEmail());
         bundle.putString("password", mUser.getPassword());
         temp.putExtras(bundle);
+
+        SQLiteDBHelper dbHelper = new SQLiteDBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        //Drop all tables in database.mar
+        dbHelper.onUpgrade(db, 1, 1);
+
         this.startActivity(temp);
     }
     /**
