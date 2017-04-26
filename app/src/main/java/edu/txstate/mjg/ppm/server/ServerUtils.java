@@ -15,6 +15,10 @@ public class ServerUtils {
     //TODO: Need to create a method to implement the interface in APIRequest.
     ApiRequest api = new ApiRequest("http://70.113.44.188:5000/");
 
+    public void setAsyncListener(ApiRequest.AsyncTaskListener a) {
+        api.setAsyncTaskListener(a);
+    }
+
     /*
     params: NONE
     returns: An array of all created Processes
@@ -65,7 +69,7 @@ public class ServerUtils {
         params: Integer that identifies the user
         returns: An array of Processes that the user has created
      */
-    public ArrayList<Process> getUserProcesses(final int userId) {
+    public ArrayList<Process> getUserCreatedProcesses(final int userId) {
         ArrayList<Process> processes = new ArrayList<>();
         try {
             JSONArray json = new JSONArray(api.get("user_processes/" + Integer.toString(userId)).trim());

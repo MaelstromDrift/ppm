@@ -13,21 +13,50 @@ import java.nio.charset.StandardCharsets;
 
 public class ApiRequest{
 
+    public interface AsyncTaskListener {
+        void onStart();
+        void onCompletion(String result);
+    }
 
     String baseURL;
 
+    public ApiRequest() {
+        asyncTaskListener = new AsyncTaskListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onCompletion(String result) {
+
+            }
+        };
+    }
     public ApiRequest(String baseURL) {
+        this();
         this.baseURL = baseURL;
     }
-    //TODO: Create an interface so that we can dynamically update the UI.
-    //TODO: make sure everything is actually ASynchronous. get() isn't need to replace all calls to this function when possible.
+    //TODO: make sure everything is actually ASynchronous. AsyncTask.get() isn't needed, replace all calls to this function when possible.
     URL apiUrl;
     HttpURLConnection apiConnection;
+
+    AsyncTaskListener asyncTaskListener;
+
+    public void setAsyncTaskListener(AsyncTaskListener asyncTaskListener) {
+        this.asyncTaskListener = asyncTaskListener;
+    }
 
     public String get(final String URL) {
         try {
             AsyncTask<Void, Void, String> networkRequest = new AsyncTask<Void, Void, String>() {
 
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    asyncTaskListener.onStart();
+
+                }
                 protected String doInBackground(Void... v) {
                     try {
                         connect(URL);
@@ -50,6 +79,11 @@ public class ApiRequest{
                         return null;
                     }
                 }
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    asyncTaskListener.onCompletion(s);
+                }
             };
             return networkRequest.execute().get();
         } catch (Exception e) {
@@ -61,6 +95,12 @@ public class ApiRequest{
         try {
             AsyncTask<Void, Void, String> networkRequest = new AsyncTask<Void, Void, String>() {
 
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    asyncTaskListener.onStart();
+
+                }
                 protected String doInBackground(Void... v) {
                     try {
                         connect(URL);
@@ -92,6 +132,12 @@ public class ApiRequest{
                         return null;
                     }
                 }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    asyncTaskListener.onCompletion(s);
+                }
             };
             return networkRequest.execute().get();
         } catch(Exception e) {
@@ -103,6 +149,12 @@ public class ApiRequest{
         try {
             AsyncTask<Void, Void, String> networkRequest = new AsyncTask<Void, Void, String>() {
 
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    asyncTaskListener.onStart();
+
+                }
                 protected String doInBackground(Void... v) {
                     try {
                         connect(URL);
@@ -133,6 +185,12 @@ public class ApiRequest{
                         e.printStackTrace();
                         return null;
                     }
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    asyncTaskListener.onCompletion(s);
                 }
             };
             return networkRequest.execute().get();

@@ -47,6 +47,22 @@ public class ProcessListFragment extends Fragment {
         final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         server = new ServerUtils();
+        //TODO: Currently the ApiRequest calls are not asynchronous so this is redundant.
+//        server.setAsyncListener(new ApiRequest.AsyncTaskListener() {
+//            boolean completed = false;
+//            @Override
+//            public void onStart() {
+//                completed = false;
+//            }
+//
+//            @Override
+//            public void onCompletion(String result) {
+//                if(!completed) {
+//                    refreshProcesses();
+//                    completed = true;
+//                }
+//            }
+//        });
 
         dbHelper = new SQLiteDBHelper(view.getContext());
         //TODO: This should be asynchronous
@@ -128,8 +144,9 @@ public class ProcessListFragment extends Fragment {
     }
 
     public void refreshProcesses() {
+        mProcessList.clear();
         SQLUtils.updateFromServer(db, server, mUser.getUserId());
-        mProcessList = SQLUtils.getAllProcesses(db);
+        mProcessList.addAll(SQLUtils.getAllProcesses(db));
         processCardAdapter.notifyDataSetChanged();
     }
 
