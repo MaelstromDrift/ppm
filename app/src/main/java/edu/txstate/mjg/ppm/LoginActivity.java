@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import edu.txstate.mjg.ppm.core.User;
+import edu.txstate.mjg.ppm.server.ApiRequest;
 import edu.txstate.mjg.ppm.server.ServerUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
 
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
         serverUtils = new ServerUtils();
         // Set up the login form.
+
 
         mEmailView = (EditText) findViewById(R.id.email);
 
@@ -75,6 +77,24 @@ public class LoginActivity extends AppCompatActivity {
         });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+        serverUtils.setAsyncListener(new ApiRequest.AsyncTaskListener() {
+            @Override
+            public void onStart() {
+                mProgressView.setVisibility(View.VISIBLE);
+                try{
+                    wait(500);
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onCompletion(String result) {
+                mProgressView.setVisibility(View.GONE);
+            }
+        });
     }
 
     /**

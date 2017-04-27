@@ -6,7 +6,6 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.core.Task;
@@ -28,7 +27,6 @@ public class SQLUtils {
             insertProcess(db, p);
         }
     }
-
 
      public static void insertProcess(SQLiteDatabase db, Process process) {
          if(getProcess(db, process.getUniqueID()) == null) {
@@ -95,17 +93,20 @@ public class SQLUtils {
 
     //Returns the UID of the inserted task entry
     public static long insertTask(SQLiteDatabase db, Task task) {
-        ContentValues values = new ContentValues();
+        Task temp = getTask(db, task.getTaskId());
+        if(temp == null) {
+            ContentValues values = new ContentValues();
 
-        values.put(TaskEntry._ID, task.getTaskId());
-        values.put(TaskEntry.COLUMN_TASK_TITLE, task.getTitle());
-        values.put(TaskEntry.COLUMN_TASK_DESCRIPTION, task.getDescription());
-        values.put(TaskEntry.COLUMN_TASK_CREATOR_ID, task.getCreatorID());
+            values.put(TaskEntry._ID, task.getTaskId());
+            values.put(TaskEntry.COLUMN_TASK_TITLE, task.getTitle());
+            values.put(TaskEntry.COLUMN_TASK_DESCRIPTION, task.getDescription());
+            values.put(TaskEntry.COLUMN_TASK_CREATOR_ID, task.getCreatorID());
 
-        return db.insert(TaskEntry.TABLE_NAME, null, values);
+            return db.insert(TaskEntry.TABLE_NAME, null, values);
+        }
+        return temp.getTaskId();
     }
 
-    //TODO: Implement error handling when task doesn't exist
     public static Task getTask(SQLiteDatabase db, int taskID) {
         String[] projection = {
                 TaskEntry.COLUMN_TASK_CREATOR_ID,
@@ -121,19 +122,22 @@ public class SQLUtils {
         };
 
         Cursor cursor = db.query(TaskEntry.TABLE_NAME, projection, whereClause, whereArgs, null, null, null);
-        List<Task> tasks = new ArrayList<>();
+        Task task = null;
 
-        while(cursor.moveToNext()) {
+
+        try {
+            cursor.moveToNext();
             //TODO: Get linked tasks
-            tasks.add(new Task(cursor.getInt(cursor.getColumnIndexOrThrow(TaskEntry._ID)),
+            task = new Task(cursor.getInt(cursor.getColumnIndexOrThrow(TaskEntry._ID)),
                     cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_TASK_TITLE)),
                     cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_TASK_DESCRIPTION)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_TASK_CREATOR_ID))
-            ));
-        }
-        cursor.close();
+            );
+            cursor.close();
+        } catch (CursorIndexOutOfBoundsException e) {
 
-        return tasks.get(0);
+        }
+        return task;
     }
     public static ArrayList<Process> getAllProcesses(SQLiteDatabase db) {
         //Decide which columns we want to get

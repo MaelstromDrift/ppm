@@ -21,6 +21,7 @@ import edu.txstate.mjg.ppm.activities.ProcessCardItemClickListener;
 import edu.txstate.mjg.ppm.adapters.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
 import edu.txstate.mjg.ppm.core.User;
+import edu.txstate.mjg.ppm.server.ApiRequest;
 import edu.txstate.mjg.ppm.server.ServerUtils;
 import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
@@ -48,21 +49,16 @@ public class ProcessListFragment extends Fragment {
 
         server = new ServerUtils();
         //TODO: Currently the ApiRequest calls are not asynchronous so this is redundant.
-//        server.setAsyncListener(new ApiRequest.AsyncTaskListener() {
-//            boolean completed = false;
-//            @Override
-//            public void onStart() {
-//                completed = false;
-//            }
-//
-//            @Override
-//            public void onCompletion(String result) {
-//                if(!completed) {
-//                    refreshProcesses();
-//                    completed = true;
-//                }
-//            }
-//        });
+        server.setAsyncListener(new ApiRequest.AsyncTaskListener() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onCompletion(String result) {
+                refreshProcesses();
+            }
+        });
 
         dbHelper = new SQLiteDBHelper(view.getContext());
         //TODO: This should be asynchronous
@@ -118,6 +114,7 @@ public class ProcessListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        SQLUtils.updateFromServer(db, server, mUser.getUserId());
         refreshProcesses();
     }
     public void showDialog() {
@@ -145,7 +142,6 @@ public class ProcessListFragment extends Fragment {
 
     public void refreshProcesses() {
         mProcessList.clear();
-        SQLUtils.updateFromServer(db, server, mUser.getUserId());
         mProcessList.addAll(SQLUtils.getAllProcesses(db));
         processCardAdapter.notifyDataSetChanged();
     }
