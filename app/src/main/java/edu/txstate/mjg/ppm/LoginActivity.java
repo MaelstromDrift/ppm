@@ -82,17 +82,12 @@ public class LoginActivity extends AppCompatActivity {
         serverUtils.setAsyncListener(new ApiRequest.AsyncTaskListener() {
             @Override
             public void onStart() {
-                mProgressView.setVisibility(View.VISIBLE);
-                try{
-                    wait(500);
-                } catch (Exception e) {
 
-                }
             }
 
             @Override
             public void onCompletion(String result) {
-                mProgressView.setVisibility(View.GONE);
+                showProgress(false);
             }
         });
     }
@@ -112,10 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             mEmailView.setError(getString(R.string.error_field_required));
         }
 
-
-        // Show a progress spinner, and kick off a background task to
-        // perform the user login attempt.
-        //showProgress(true);
+        showProgress(true);
 
         mUser = serverUtils.verifyUser(user, password);
 
@@ -138,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
         SQLiteDBHelper dbHelper = new SQLiteDBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        //Drop all tables in database.mar
+        //Drop all tables in database.
         dbHelper.onUpgrade(db, 1, 1);
 
         this.startActivity(temp);
