@@ -1,5 +1,8 @@
 package edu.txstate.mjg.ppm.core;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -39,6 +42,20 @@ public class Process {
         creatorID = 0;
     }
 
+    public Process(JSONObject json) {
+        try {
+            //TODO: Get the tasks from the jsonObject.
+            uniqueID = json.getInt("_id");
+            title = json.getString("title");
+            description = json.getString("description");
+            creatorID = json.getInt("creatorId");
+
+            taskList = new ArrayList();
+            category = Categories.Misc;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public void addTask(Task task) {
         taskList.add(task);
     }

@@ -20,8 +20,11 @@ import edu.txstate.mjg.ppm.activities.CreateProcessActivity;
 import edu.txstate.mjg.ppm.activities.ProcessCardItemClickListener;
 import edu.txstate.mjg.ppm.adapters.ProcessCardAdapter;
 import edu.txstate.mjg.ppm.core.Process;
+import edu.txstate.mjg.ppm.core.User;
+import edu.txstate.mjg.ppm.server.ApiRequest;
+import edu.txstate.mjg.ppm.server.ServerUtils;
+import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
-import edu.txstate.mjg.ppm.utils.SQLUtils;
 
 public class ProcessListFragment extends Fragment {
 
@@ -30,16 +33,38 @@ public class ProcessListFragment extends Fragment {
     SQLiteDBHelper dbHelper;
     ProcessCardAdapter processCardAdapter;
     Context mContext;
+
+    ServerUtils server;
+
+    User mUser;
+
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.process_list_view, container, false);
 
+        initUser();
+
         mContext = view.getContext();
         final RecyclerView processRecycler = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+        server = new ServerUtils();
+        //TODO: Currently the ApiRequest calls are not asynchronous so this is redundant.
+        server.setAsyncListener(new ApiRequest.AsyncTaskListener() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onCompletion(String result) {
+                refreshProcesses();
+            }
+        });
 
         dbHelper = new SQLiteDBHelper(view.getContext());
         //TODO: This should be asynchronous
         db = dbHelper.getWritableDatabase();
+
+        SQLUtils.updateFromServer(db, server, mUser.getUserId());
 
         mProcessList = SQLUtils.getAllProcesses(db);
 
@@ -76,14 +101,29 @@ public class ProcessListFragment extends Fragment {
         return view;
     }
 
+    public void initUser() {
+        int id = getArguments().getInt("id");
+        String username = getArguments().getString("username");
+        String password = getArguments().getString("password");
+        String firstName = getArguments().getString("firstName");
+        String lastName = getArguments().getString("lastName");
+        String email = getArguments().getString("email");
+
+        mUser = new User(id, username, password, firstName, lastName, email);
+    }
     @Override
     public void onResume() {
         super.onResume();
+        SQLUtils.updateFromServer(db, server, mUser.getUserId());
         refreshProcesses();
     }
     public void showDialog() {
 
         Intent temp = new Intent().setClass(mContext, CreateProcessActivity.class);
+
+        temp.putExtra("id", mUser.getUserId());
+
+
         mContext.startActivity(temp);
 
 //        FragmentManager fragmentManager = getFragmentManager();
@@ -109,7 +149,6 @@ public class ProcessListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     @Override

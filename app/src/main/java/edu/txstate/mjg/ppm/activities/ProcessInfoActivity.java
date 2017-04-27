@@ -1,29 +1,20 @@
 package edu.txstate.mjg.ppm.activities;
 
-import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.app.FragmentManager;
-import android.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import edu.txstate.mjg.ppm.R;
 import edu.txstate.mjg.ppm.adapters.TaskListItemAdapter;
 import edu.txstate.mjg.ppm.core.Process;
-import edu.txstate.mjg.ppm.core.Task;
-import edu.txstate.mjg.ppm.fragments.CreateTaskDialog;
+import edu.txstate.mjg.ppm.sql.SQLUtils;
 import edu.txstate.mjg.ppm.sql.SQLiteDBHelper;
-import edu.txstate.mjg.ppm.utils.SQLUtils;
 
 public class ProcessInfoActivity extends AppCompatActivity {
 

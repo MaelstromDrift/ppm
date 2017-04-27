@@ -1,5 +1,8 @@
 package edu.txstate.mjg.ppm.core;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class Task {
@@ -34,6 +37,16 @@ public class Task {
         this.creatorId = 0;
     }
 
+    public Task(JSONObject object) {
+        try {
+            taskID = object.getInt("_id");
+            title = object.getString("title");
+            description = object.getString("description");
+            creatorId = object.getInt("creatorId");
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public Task(String title, String description, int creatorId) {
         this.taskID = 1;
         this.title = title;
@@ -50,7 +63,7 @@ public class Task {
     //Linked Tasks Operations
     public void addTask(Task task) { linkedTasks.add(task); }
 
-    public void addTask(int order, Task task) { linkedTasks.add(task); }
+    public void addTask(Task task, int order) { linkedTasks.add(order, task); }
 
     public void deleteLinkedTask(int pos) {linkedTasks.remove(pos);}
 
@@ -72,6 +85,7 @@ public class Task {
     public int getCreatorID() { return creatorId; }
 
 
+    public void setUniqueId(int uniqueId) { this.taskID = uniqueId; }
     public void setTitle(String title) { this.title = title; }
 
     public void setDescription(String description) {this.description = description;}

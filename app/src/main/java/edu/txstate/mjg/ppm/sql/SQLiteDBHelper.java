@@ -1,6 +1,5 @@
 package edu.txstate.mjg.ppm.sql;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -34,6 +33,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         //TODO: Learn about foreign keys/primary keys
         final String SQL_CREATE_FOLLOWING_TABLE = " CREATE TABLE " + ProcessTaskEntry.TABLE_NAME +
+                "(" + ProcessTaskEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ProcessTaskEntry.COLUMN_PROCESS + " INTEGER NOT NULL, " +
                 ProcessTaskEntry.COLUMN_TASK + " INTEGER NOT NULL, " +
                 ProcessTaskEntry.COLUMN_ORDER + " INTEGER NOT NULL" + ");";
@@ -42,22 +42,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_PROCESS_TABLE);
         db.execSQL(SQL_CREATE_TASKS_TABLE);
         db.execSQL(SQL_CREATE_FOLLOWING_TABLE);
-
-       insertDefaultTask(db);
-    }
-
-    /**
-     * This might not be needed anymore due to the new approach of tracking processes tasks.
-     * @param db
-     */
-    private void insertDefaultTask(SQLiteDatabase db) {
-        ContentValues values = new ContentValues();
-
-        values.put(TaskEntry.COLUMN_TASK_TITLE, "Default Task");
-        values.put(TaskEntry.COLUMN_TASK_DESCRIPTION, "This is the default task!");
-        values.put(TaskEntry.COLUMN_TASK_CREATOR_ID, 0);
-
-        db.insert(TaskEntry.TABLE_NAME, null, values);
     }
 
     @Override
